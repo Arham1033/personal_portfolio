@@ -239,13 +239,13 @@ if (confirmDelete){
       <div className="bg-gray-200 min-h-screen flex flex-col items-center">
         <div className="flex flex-col items-center justify-center mt-6 py-2">
           <div className="flex items-center gap-4">
-            <Image
+            <Image className="md:w-12 w-8"
               src="/welcome.svg"
               alt="Welcome Image"
               width={50}
               height={50}
             />
-            <h1 className="text-4xl font-bold">Welcome to My Portfolio</h1>
+            <h1 className="md:text-4xl font-bold text-xl">Welcome to My Portfolio</h1>
           </div>
 
           <p className="text-lg text-gray-600 mb-8">
@@ -253,8 +253,8 @@ if (confirmDelete){
           </p>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-bold mb-4 ">Skill section</h2>
+        <div className="px-2">
+          <h2 className="md:text-2xl text-xl font-bold mb-4 ">Skill section</h2>
 
           {skills.length === 0 ? (
             <p className="text-gray-700 mb-4 font-semibold">
@@ -263,7 +263,7 @@ if (confirmDelete){
           ) : (
             <ul className="list-disc list-inside text-gray-700">
               {skills.map((skill, index) => (
-                <li key={index} className="flex gap-50 mb-2 justify-between">
+                <li key={index} className="flex md:gap-50 gap-25 mb-2 justify-between">
                   <span className="font-semibold">{skill}</span>
                   <div className="flex gap-2 items-center">
                     {/* EDIT */}
@@ -291,7 +291,7 @@ if (confirmDelete){
               onClick={() => {
                 openMenu();
               }}
-              className="px-4 py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer"
+              className="md:px-4 px-3 py-1 md:py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer"
             >
               Add Skill
             </button>
@@ -304,14 +304,14 @@ if (confirmDelete){
                 type="text"
                 value={input}
                 placeholder="Enter new skill"
-                className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 mr-2"
+                className="md:px-4 px-2 md:py-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 md:mr-2"
               />
               <button
                 onClick={() => {
                   addskill();
                 }}
                 disabled={isDisabled}
-                className={`px-4 py-2 rounded-lg transition duration-300 ${
+                className={`md:px-4 px-2 md:py-2 py-1 rounded-lg transition duration-300 ${
                   isDisabled
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-gray-400 hover:bg-gray-500 cursor-pointer"
@@ -323,9 +323,9 @@ if (confirmDelete){
           )}
         </div>
 
-        <div className="mx-auto w-150">
-          <h3 className="text-2xl font-bold my-4">Project section</h3>
-          <div className="grid grid-cols-2 gap-4">
+        <div className="mx-auto md:w-150 w-65 px-2">
+          <h3 className="md:text-2xl text-xl font-bold my-4">Project section</h3>
+          <div className="grid md:grid-cols-2 grid-col-1 md:gap-4 gap-2">
             {projects.length === 0 ? (
               <div className="text-gray-600">No projects yet</div>
             ) : (
@@ -356,20 +356,20 @@ if (confirmDelete){
                       (Link)
                     </a>
                   ) : (
-                    <span className="text-gray-500 ml-2">(Invalid link)</span>
+                    <span className="text-gray-500 ">(Invalid link)</span>
                   )}
                   <div>{p.description}</div>
                   <div className="flex gap-2 mt-4">
                     <button
                       onClick={() => handleEdit(p)}
-                      className="bg-green-600 text-white px-3 py-1 rounded hover:cursor-pointer hover:bg-green-700 transition duration-300"
+                      className="bg-green-600 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-green-700 transition duration-300"
                     >
                       Update
                     </button>
 
                     <button
                       onClick={() => handleDelete(p._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:cursor-pointer hover:bg-red-600 transition duration-300"
+                      className="bg-red-500 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-red-600 transition duration-300"
                     >
                       Delete
                     </button>
@@ -390,20 +390,20 @@ if (confirmDelete){
                 <input
                   type="text"
                   placeholder="Project Link"
-                  className="border p-2 w-full mb-2"
+                  className="border rounded-lg p-2 w-full mb-2"
                   value={form.link}
                   onChange={(e) => setForm({ ...form, link: e.target.value })}
                 />
                 <input
                   type="text"
                   placeholder="Image URL (optional)"
-                  className="border p-2 w-full mb-2"
+                  className="rounded-lg border p-2 w-full mb-2"
                   value={form.image}
                   onChange={(e) => setForm({ ...form, image: e.target.value })}
                 />
                 <textarea
                   placeholder="Description"
-                  className="border p-2 w-full mb-2"
+                  className="rounded-lg border p-2 w-full mb-2"
                   value={form.description}
                   onChange={(e) =>
                     setForm({ ...form, description: e.target.value })
@@ -411,7 +411,7 @@ if (confirmDelete){
                 />
                 <button
                   onClick={editingId ? handleUpdateProject : handleAddProject}
-                  className="bg-green-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-green-600 transition duration-300"
+                  className="bg-green-500 text-white md:px-4 px-2 md:py-2 py-1 rounded cursor-pointer hover:bg-green-600 transition duration-300"
                 >
                   {editingId ? "Update Project" : "Add Project"}
                 </button>
@@ -423,7 +423,7 @@ if (confirmDelete){
               onClick={() => {
                 setShowForm(!showForm);
               }}
-              className="px-4 font-normal text-black text-md py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer"
+              className="md:px-4 px-2 font-normal text-black text-md md:py-2 py-1 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer"
             >
               Add Project
             </button>

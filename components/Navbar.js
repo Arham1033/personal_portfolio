@@ -77,34 +77,39 @@ useEffect(() => {
 }, []);
   return (
     <div className="sticky top-0 z-50">
-        <nav className="bg-gray-600 text-white p-4">  
-                 <div className="flex items-center justify-between mx-10"> 
+        <nav className="bg-gray-600 text-white md:p-4 p-2">  
+                 <div className="flex items-center justify-between md:mx-10 mx-0"> 
                     <Link
                     href="/"
-                    className="text-2xl font-bold text-gray-300 hover:text-white transition duration-300"
+                    className="md:text-2xl text-lg font-bold text-gray-300 hover:text-white transition duration-300"
                     >
-                     <Image src="/information.svg" alt="Logo" width={30} height={30} className="inline-block mr-2" />   
-                    My Portfolio
+                     <Image src="/information.svg" alt="Logo" width={30} height={30} className="inline-block md:mr-2 mr-1 md:w-9" />   
+                    <span className='md:text-2xl text-lg'>
+                      My Portfolio
+                      </span>
                     </Link>
 
-                <div className="Links flex gap-2">
-                    
-                    <Link href="/about" className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">About</Link>
-                
-                    <Link href="/contact" className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">Contact</Link>
+                <div className="Links flex md:flex-row flex-col md:gap-2 gap-1">
+                    <div className='flex gap-1'>
+
+                    <Link href="/about" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">About</Link>
+                    <Link href="/contact" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">Contact</Link>
+                    </div>
 
 {user ? (
   <>
-    <span className="px-4 py-2">
+  <div className='flex gap-1'>
+    <span className="md:px-4 px-2 md:py-2 py-1">
       {user.name}
     </span>
 
     <button
       onClick={handleLogout}
-      className="px-4 py-2 bg-gray-700 rounded cursor-pointer transition duration-300 hover:bg-gray-800"
-    >
+      className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded cursor-pointer transition duration-300 hover:bg-gray-800"
+      >
       Logout
     </button>
+      </div>
   </>
 ) : (
   <div ref={dropdownRef} className="dropdown">
@@ -112,7 +117,7 @@ useEffect(() => {
       onClick={() => setactive(!active)}
       className="dropbtn flex items-center gap-2 cursor-pointer"
     >
-      <button className='cursor-pointer transition duration-300'>Register/Login</button>
+      <button className='cursor-pointer transition duration-300 '>Register/Login</button>
 
       <Image
         src="/arrow.svg"
@@ -127,14 +132,14 @@ useEffect(() => {
       <div className="dropdown-content">
           <Link
   href="/register"
-  className="block px-4 py-2 hover:bg-gray-800 transition duration-300"
+  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300"
 >
   Register
 </Link>
 
 <Link
   href="/login"
-  className="block px-4 py-2 hover:bg-gray-800 transition duration-300"
+  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300"
 >
   Login
 </Link>

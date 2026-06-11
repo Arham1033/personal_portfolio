@@ -2,8 +2,8 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="bg-gray-200 min-h-screen pt-3 items-center py-2 px-10">
-      <h1 className="text-3xl font-bold">About myself</h1>
+    <div className="bg-gray-200 min-h-screen pt-3 items-center py-2 md:px-10 px-5">
+      <h1 className="md:text-3xl text-xl font-bold">About myself</h1>
         <p className="text-lg text-gray-600 mt-4">My name is <span className="font-semibold">
             Muhammad Arham.
             </span>

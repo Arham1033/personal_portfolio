@@ -43,7 +43,7 @@ toast.success("Login successfully")
 };
 
   return (
-    <div className="flex flex-col gap-4 w-60 mx-auto mt-20 min-h-screen">
+    <div className="flex flex-col gap-4 md:w-60 mx-auto md:mt-20 mt-10 min-h-screen">
       <input className="w-60 bg-white border rounded-md p-2 hover:ring-1 cursor-pointer transition duration-300" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 <div className="flex gap-2 w-70">
       <input className="w-60 bg-white border rounded-md p-2 hover:ring-1 cursor-pointer transition duration-300" placeholder="Password" value={password}

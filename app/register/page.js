@@ -48,7 +48,7 @@ const togglePassword = () => {
 };
 
   return (
-    <div className="flex flex-col gap-4 w-60 mx-auto mt-20 min-h-screen">
+    <div className="flex flex-col gap-4 md:w-60 mx-auto md:mt-20 mt-10 min-h-screen">
       <input
         type="text"
         placeholder="Name"

@@ -36,3 +36,18 @@
             transition: background-color 0.3s ease;
             cursor: pointer;
         }
+
+       
+@media (max-width: 768px) {
+  .dropdown-content {
+    min-width: 140px;
+    
+  }
+  .dropbtn{
+    min-width: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
