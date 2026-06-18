@@ -1,8 +1,7 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req) {
   try {
@@ -16,32 +15,36 @@ export async function POST(req) {
     const file = formData.get("profileImage");
 
     if (!name || !email || !password) {
-      return Response.json({ message: "Fill form first" }, { status: 400 });
+      return Response.json(
+        { message: "Fill form first" },
+        { status: 400 }
+      );
     }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return Response.json({ message: "User already exists" }, { status: 400 });
+      return Response.json(
+        { message: "User already exists" },
+        { status: 400 }
+      );
     }
 
     let imageUrl = "/default-avatar.jpg";
 
-    // ✅ HANDLE IMAGE UPLOAD
+    // ✅ CLOUDINARY UPLOAD (NEW)
     if (file && typeof file === "object" && file.name) {
-      await mkdir(path.join(process.cwd(), "public/uploads"), {
-        recursive: true,
-      });
-
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const fileName = `${Date.now()}-${file.name}`;
-      const filePath = path.join(process.cwd(), "public/uploads", fileName);
+      const base64Image = buffer.toString("base64");
+      const dataURI = `data:${file.type};base64,${base64Image}`;
 
-      await writeFile(filePath, buffer);
+      const uploadResponse = await cloudinary.uploader.upload(dataURI, {
+        folder: "profile_images",
+      });
 
-      imageUrl = `/uploads/${fileName}`;
+      imageUrl = uploadResponse.secure_url;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
