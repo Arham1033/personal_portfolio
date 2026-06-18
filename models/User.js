@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  profileImage: {
+    type: String,
+    default: "/default-avatar.jpg",
+  }
 });
 
 export default mongoose.models.User ||

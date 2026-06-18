@@ -38,6 +38,36 @@
         }
 
        
+        
+        .layout {
+  display: flex;
+}
+
+/* Sidebar fixed under navbar */
+.sidebar {
+  position: fixed;
+  top: 60px; /* height of navbar */
+  left: -170px;
+  width: 250px;
+  height: calc(100vh - 60px); /* footer + navbar safe */
+  background: #222;
+  color: white;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  transition: left 0.3s ease;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.content {
+  margin-left: 0;
+  padding: 0;
+  width: 100%;
+} 
+
 @media (max-width: 768px) {
   .dropdown-content {
     min-width: 140px;
@@ -49,5 +79,10 @@
     padding-right: 10px;
     padding-top: 4px;
     padding-bottom: 4px;
+  }
+  .sidebar{
+    left: -170px;
+    padding-right: 8px;
+    width: 200px;
   }
 }

@@ -98,10 +98,20 @@ useEffect(() => {
 
 {user ? (
   <>
-  <div className='flex gap-1'>
-    <span className="md:px-4 px-2 md:py-2 py-1">
-      {user.name}
-    </span>
+  <div className='flex gap-2'>
+
+    <Link className='flex relative overflow-hidden items-center' href="/profile">
+    <img
+  width={40}
+  height={30}
+  src={user.profileImage || "/default-avatar.png"}
+  alt="profile pic"
+  className="rounded-full object-cover"
+/>
+   <span className="hidden md:inline px-2 md:py-2 py-1 md:text-lg">
+  {user.name}
+</span>
+    </Link>
 
     <button
       onClick={handleLogout}
@@ -124,7 +134,7 @@ useEffect(() => {
         alt="Arrow"
         width={14}
         height={20}
-        className="invert"
+        className="invert pr-1"
       />
     </div>
 

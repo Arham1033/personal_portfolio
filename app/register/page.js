@@ -12,35 +12,45 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
+  const [file, setFile] = useState(null);
 
  const handleRegister = async () => {
-
   if (!name || !email || !password) {
-      toast.error("Fill form first");
+    toast.error("Fill form first");
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+
+    // ✅ FIX HERE
+    if (file instanceof File) {
+      formData.append("profileImage", file);
+    }
+
+    const res = await fetch("/api/register", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Registration failed");
       return;
     }
 
-  const res = await fetch("/api/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name,
-      email,
-      password,
-    }),
-  });
-
-  const data = await res.json();
-
-  if (res.ok) {
     setAuthUser(data.user);
-    router.push("/"); // ✅ HERE
-  toast.success("Registration successful!");
+    toast.success("Registration successful!");
+    router.push("/");
+  } catch (err) {
+    console.error(err);
+    toast.error("Something went wrong");
   }
-
-
 };
 
 const togglePassword = () => {
@@ -48,7 +58,7 @@ const togglePassword = () => {
 };
 
   return (
-    <div className="flex flex-col gap-4 md:w-60 mx-auto md:mt-20 mt-10 min-h-screen">
+    <div className="flex w-45 flex-col gap-4 md:w-60 mx-auto md:mt-20 mt-10 min-h-screen">
       <input
         type="text"
         placeholder="Name"
@@ -66,11 +76,11 @@ const togglePassword = () => {
       />
 
 
-<div className="flex gap-2 w-70">
+<div className="flex gap-2 md:w-70 w-55">
       <input
        type={showPassword ? "text" : "password"}
         placeholder="Password"
-        className="border p-2 rounded-md w-60"
+        className="border p-2 rounded-md md:w-60 w-40"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         />
@@ -82,6 +92,26 @@ const togglePassword = () => {
     )}
   </button>
         </div>
+
+
+<div className="flex items-center gap-3">
+  
+  <label className="cursor-pointer bg-gray-500 text-white md:px-4 px-2 md:py-2 py-1 rounded">
+    Choose file (optional)
+
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => setFile(e.target.files[0])}
+      className="hidden"
+    />
+  </label>
+
+  <span className="text-sm text-gray-600">
+    {file ? file.name : "No file selected"}
+  </span>
+
+</div>
 
       <button
         onClick={handleRegister}

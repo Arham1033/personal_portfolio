@@ -39,8 +39,10 @@ export async function POST(req) {
     return Response.json({
       message: "Login successful",
       user: {
-        name: user.name || "User",
-        email: user.email
+         _id: user._id,        // 🔥 REQUIRED
+    name: user.name,
+    email: user.email,
+    profileImage: user.profileImage || "/default-avatar.jpg",
       }
     });
   } catch (error) {
