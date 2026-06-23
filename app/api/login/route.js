@@ -29,12 +29,17 @@ export async function POST(req) {
       user.password
     );
 
+    
     if (!isMatch) {
       return Response.json(
         { message: "Wrong credentials" },
         { status: 401 }
       );
     }
+    user.loginCount += 1;
+user.lastLogin = new Date();
+
+await user.save();
 
     return Response.json({
       message: "Login successful",
@@ -43,6 +48,10 @@ export async function POST(req) {
     name: user.name,
     email: user.email,
     profileImage: user.profileImage || "/default-avatar.jpg",
+    loginCount: user.loginCount,
+  profileViews: user.profileViews,
+  createdAt: user.createdAt,
+  lastLogin: user.lastLogin,
       }
     });
   } catch (error) {

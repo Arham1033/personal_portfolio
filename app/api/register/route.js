@@ -54,6 +54,8 @@ export async function POST(req) {
       email,
       password: hashedPassword,
       profileImage: imageUrl,
+      loginCount: 1,
+      lastLogin: new Date(),
     });
 
     return Response.json({
@@ -63,7 +65,12 @@ export async function POST(req) {
         name,
         email,
         profileImage: imageUrl,
+        loginCount: newUser.loginCount,
+        profileViews: newUser.profileViews,
+        createdAt: newUser.createdAt,
+        lastLogin: newUser.lastLogin,
       },
+
     });
   } catch (error) {
     console.error("REGISTER ERROR:", error);

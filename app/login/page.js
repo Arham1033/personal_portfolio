@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { setAuthUser } from "@/lib/auth";
 import toast from "react-hot-toast";
 import Image from "next/image";
+// missing this
+import { useActivity } from "@/context/ActivityContext";
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+const { addActivity } = useActivity();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -32,6 +35,7 @@ export default function Login() {
       setAuthUser(data.user);   // 🔥 THIS IS REQUIRED
       router.push("/");
 toast.success("Login successfully")
+  addActivity("User logged in");
     
     } else{
        toast.error(data.message || "Invalid credentials");

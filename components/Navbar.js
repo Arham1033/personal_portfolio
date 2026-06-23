@@ -5,10 +5,12 @@ import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
 import { clearAuthUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import { useActivity } from "@/context/ActivityContext";
 
 const Navbar = () => {
   const dropdownRef = useRef(null);
   const router = useRouter();
+    const { addActivity } = useActivity();
   const [user, setUser] = useState(null);
   const [active, setactive] = useState(false);
 useEffect(() => {
@@ -49,6 +51,7 @@ useEffect(() => {
 const handleLogout = () => {
   clearAuthUser();
   router.push("/");
+  addActivity("User logged out");
 };
 
 useEffect(() => {
@@ -98,15 +101,15 @@ useEffect(() => {
 
 {user ? (
   <>
-  <div className='flex gap-2'>
+  <div className='flex gap-2 overflow-hidden relative'>
 
-    <Link className='flex relative overflow-hidden items-center' href="/profile">
+    <Link className='flex items-center' href="/profile">
     <img
   width={40}
   height={30}
   src={user.profileImage || "/default-avatar.png"}
   alt="profile pic"
-  className="rounded-full object-cover"
+  className="rounded-full object-cover h-10"
 />
    <span className="hidden md:inline px-2 md:py-2 py-1 md:text-lg">
   {user.name}

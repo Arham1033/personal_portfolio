@@ -19,8 +19,29 @@ const UserSchema = new mongoose.Schema({
   profileImage: {
     type: String,
     default: "/default-avatar.jpg",
-  }
-});
+  },
+  
+  loginCount: {
+  type: Number,
+  default: 0,
+},
+
+lastLogin: {
+  type: Date,
+},
+
+profileViews: {
+  type: Number,
+  default: 0,
+},
+
+},
+
+{
+  timestamps: true,
+
+}
+);
 
 export default mongoose.models.User ||
   mongoose.model("User", UserSchema);

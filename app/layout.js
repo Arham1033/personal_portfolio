@@ -3,6 +3,7 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import Layout from "@/components/layout";
+import { ActivityProvider } from "@/context/ActivityContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,11 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col">
        
         
-        <Layout>{children}</Layout>
+          <ActivityProvider>
+        <Layout>
+          {children}
+          </Layout>
+          </ActivityProvider>
 
         <Toaster
           position="top-right"

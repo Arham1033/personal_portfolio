@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
+import bcrypt from "bcryptjs";
 
 export async function PUT(req) {
   try {
@@ -7,9 +8,13 @@ export async function PUT(req) {
 
     const body = await req.json();
 
-    console.log("UPDATE BODY:", body);
-
-    const { _id, name, profileImage } = body;
+    const {
+      _id,
+      name,
+      profileImage,
+      oldPassword,
+      newPassword,
+    } = body;
 
     if (!_id) {
       return Response.json(
@@ -18,21 +23,59 @@ export async function PUT(req) {
       );
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      _id,
-      { name, profileImage },
-      { new: true }
-    );
+    const user = await User.findById(_id);
 
-    if (!updatedUser) {
+    if (!user) {
       return Response.json(
         { message: "User not found" },
         { status: 404 }
       );
     }
 
+    user.name = name;
+    user.profileImage = profileImage;
+
+    // Password change
+    if (newPassword) {
+      if (!oldPassword) {
+        return Response.json(
+          { message: "Enter old password" },
+          { status: 400 }
+        );
+      }
+
+      const isMatch = await bcrypt.compare(
+        oldPassword,
+        user.password
+      );
+
+      if (!isMatch) {
+        return Response.json(
+          { message: "Old password is incorrect" },
+          { status: 400 }
+        );
+      }
+
+      user.password = await bcrypt.hash(
+        newPassword,
+        10
+      );
+    }
+
+    await user.save();
+
     return Response.json({
-      user: updatedUser,
+      message: "Profile updated",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        profileImage: user.profileImage,
+            loginCount: user.loginCount,
+  profileViews: user.profileViews,
+  createdAt: user.createdAt,
+  lastLogin: user.lastLogin,
+      },
     });
 
   } catch (err) {

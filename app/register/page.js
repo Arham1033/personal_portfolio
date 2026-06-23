@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { setAuthUser } from "@/lib/auth";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { useActivity } from "@/context/ActivityContext";
 
 export default function Register() {
   const router = useRouter();
   const [name, setName] = useState("");
+  const { addActivity } = useActivity();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +48,7 @@ export default function Register() {
 
     setAuthUser(data.user);
     toast.success("Registration successful!");
+    addActivity("User registered");
     router.push("/");
   } catch (err) {
     console.error(err);

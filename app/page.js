@@ -6,19 +6,43 @@ import React from "react";
 import Link from "next/link";
 
 export default function Home() {
-  const defaultSkills = ["JavaScript", "React", "Next.js", "MongoDB"];
+  const defaultSkills = [
+  { name: "JavaScript", category: "Frontend" },
+  { name: "React", category: "Frontend" },
+  { name: "Next.js", category: "Frontend" },
+  { name: "MongoDB", category: "Database" },
+];
+const [skillFilter, setSkillFilter] = useState("all");
   const [skills, setskills] = useState(defaultSkills);
   const [showBtn, setshowBtn] = useState(false);
+    const [user, setUser] = useState(null);
+  const [stats, setStats] = useState(null);
   const [showInput, setshowInput] = useState(false);
   const [input, setinput] = useState("");
   const [editIndex, seteditIndex] = useState(null);
+  const [skillCategory, setSkillCategory] = useState("Frontend");
   const isDisabled = input.trim() === "";
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [projectFile, setProjectFile] = useState(null);
+  const [skillSearch, setSkillSearch] = useState("");
+  const defaultCategories = [
+  "Web Developement",
+  "Mobile App",
+  "AI",
+  "Game Developement",
+  ];
+  const [editProjectFile, setEditProjectFile] = useState(null);
+const [projectPreview, setProjectPreview] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [activities, setActivities] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+const [categories, setCategories] = useState(defaultCategories);
+const [newCategory, setNewCategory] = useState("");
+const [editingCategory, setEditingCategory] = useState(null);
   const [filter, setFilter] = useState("all");
   const [addForm, setAddForm] = useState({
   title: "",
@@ -40,11 +64,89 @@ const [editForm, setEditForm] = useState({
   status: "ongoing",
 });
   const [editingId, setEditingId] = useState(null);
+
+  
   // Fetch projects
   useEffect(() => {
     fetchProjects();
   }, []);
+  
+  useEffect(() => {
+    const stored = localStorage.getItem("user");
+    
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      setUser(parsed);
+      
+      fetch(`/api/user/stats/${parsed._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setStats(data.user);
+      });
+    }
+  }, []);
+  
+    useEffect(() => {
+    const checkSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+  
+    checkSize();
+    window.addEventListener("resize", checkSize);
+  
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
 
+ const filteredSkills = skills
+  .filter((skill) => {
+    if (skillFilter === "all") return true;
+    return skill.category === skillFilter;
+  })
+  .filter((skill) =>
+    skill.name.toLowerCase().includes(skillSearch.toLowerCase())
+  );
+
+  useEffect(() => {
+  const saved = localStorage.getItem("activities");
+
+  if (saved) {
+    setActivities(JSON.parse(saved));
+  }
+}, []);
+
+const addActivity = (text) => {
+  const newActivity = {
+    id: Date.now(),
+    text,
+    time: new Date().toLocaleString(),
+  };
+
+  setActivities((prev) => {
+    const updated = [newActivity, ...prev].slice(0, 12);
+    localStorage.setItem("activities", JSON.stringify(updated));
+    return updated;
+  });
+};
+
+const handleProjectFile = (e) => {
+  const selected = e.target.files[0];
+  if (!selected) return;
+
+  setProjectFile(selected);
+
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+    setProjectPreview(reader.result);
+
+    setAddForm((prev) => ({
+      ...prev,
+      image: reader.result,
+    }));
+  };
+
+  reader.readAsDataURL(selected);
+};
   async function fetchProjects() {
     const res = await fetch("/api/projects");
     const data = await res.json();
@@ -70,7 +172,7 @@ const [editForm, setEditForm] = useState({
     if (!res.ok) throw new Error("Failed");
     
     toast.success("Project Added");
-    
+    addActivity(`Project "${addForm.title}" added`);
     // RESET FORM PROPERLY
     setAddForm({
       title: "",
@@ -83,63 +185,84 @@ const [editForm, setEditForm] = useState({
     
     setShowForm(false);
     fetchProjects();
-    
+    localStorage.setItem("portfolio_sync", Date.now());
+
   } catch (err) {
     console.error(err);
     alert("Error adding project");
   }
 }
 
-  useEffect(() => {
-    const saved = localStorage.getItem("skills");
+ useEffect(() => {
+  const saved = localStorage.getItem("skills");
 
-    if (saved) {
-      const parsedSkills = JSON.parse(saved);
+  if (saved) {
+    const parsedSkills = JSON.parse(saved);
 
-      if (parsedSkills.length > 0) {
-        setskills(parsedSkills);
-      } else {
-        setskills(defaultSkills);
-      }
+    const fixedSkills = parsedSkills.map((skill) =>
+      typeof skill === "string"
+        ? { name: skill, category: "Frontend" }
+        : skill
+    );
+
+    if (fixedSkills.length > 0) {
+      setskills(fixedSkills);
     } else {
       setskills(defaultSkills);
     }
+  } else {
+    setskills(defaultSkills);
+  }
 
-    setLoading(false);
-  }, []);
+  setLoading(false);
+}, []);
 
   const openMenu = () => {
     setshowInput(true);
     setshowBtn(true);
   };
+  
   const addskill = () => {
-    if (input.trim() === "") return;
+  if (input.trim() === "") return;
 
-    let updatedSkills = [...skills];
-    if (editIndex !== null) {
-      updatedSkills[editIndex] = input;
-      setskills(updatedSkills);
-      seteditIndex(null);
-       toast.success("Skill updated successfully");
-    } else {
-      updatedSkills.push(input);
-       toast.success("Skill Added Successfully")
-    }
+  let updatedSkills = [...skills];
 
-    setskills(updatedSkills);
-    setinput("");
-    setshowInput(false);
-    setshowBtn(false);
-     
-  };
+  if (editIndex !== null) {
+    updatedSkills[editIndex] = {
+      name: input,
+      category: skillCategory,
+    };
+
+    toast.success("Skill updated successfully");
+    addActivity(`Skill "${input}" updated`);
+    seteditIndex(null);
+  localStorage.setItem("portfolio_sync", Date.now());
+  } else {
+    updatedSkills.push({
+      name: input,
+      category: skillCategory,
+    });
+
+    toast.success("Skill Added Successfully");
+    addActivity(`Skill "${input}" added`);
+    localStorage.setItem("portfolio_sync", Date.now());
+  }
+
+  setskills(updatedSkills);
+  setinput("");
+  setSkillCategory("Frontend");
+  setshowInput(false);
+  setshowBtn(false);
+};
 
   const editSkill = (index) => {
-    seteditIndex(index);
-    setinput(skills[index]);
-    setshowInput(true);
-    setshowBtn(true);
-   
-  };
+  seteditIndex(index);
+  setinput(skills[index].name);
+  setSkillCategory(skills[index].category);
+
+  setshowInput(true);
+  setshowBtn(true);
+};
 
   const deleteSkill = (index) => {
     const confirmDelete = window.confirm(
@@ -147,11 +270,13 @@ const [editForm, setEditForm] = useState({
     );
 if (confirmDelete){
   toast.success("Deleted Successfully")
+  addActivity(`Skill deleted`);
 }
     if (!confirmDelete) return;
 
     const updatedSkills = skills.filter((_, i) => i !== index);
     setskills(updatedSkills);
+    localStorage.setItem("portfolio_sync", Date.now());
   };
 
   useEffect(() => {
@@ -160,10 +285,7 @@ if (confirmDelete){
     }
   }, [skills, loading]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+  
   function isValidUrl(string) {
     try {
       new URL(string);
@@ -172,6 +294,25 @@ if (confirmDelete){
       return false;
     }
   }
+  
+  const handleEditProjectFile = (e) => {
+    const selected = e.target.files[0];
+    if (!selected) return;
+
+    setEditProjectFile(selected);
+    
+    const reader = new FileReader();
+    
+  reader.onloadend = () => {
+    setEditForm((prev) => ({
+      ...prev,
+      image: reader.result,
+    }));
+  };
+  
+  reader.readAsDataURL(selected);
+};
+
 
 function handleEdit(project) {
   setEditingId(project._id);
@@ -187,6 +328,11 @@ function handleEdit(project) {
   });
 }
 
+const currentUser =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
 
 async function handleUpdateProject() {
   try {
@@ -199,11 +345,11 @@ async function handleUpdateProject() {
     });
 
     if (!res.ok) throw new Error("Update failed");
-
+    
     toast.success("Updated Project");
-
+    addActivity(`Project "${editForm.title}" updated`);
     setEditingId(null);
-
+    
     setEditForm({
       title: "",
       link: "",
@@ -212,54 +358,124 @@ async function handleUpdateProject() {
       featured: false,
       status: "ongoing",
     });
-
+    
     fetchProjects();
+
+localStorage.setItem("portfolio_sync", Date.now());
+
   } catch (err) {
     console.error(err);
   }
 }
 
-  async function handleDelete(id) {
-    const confirmDelete = confirm(
-      "Are you sure you want to delete this project?",
-    );
-    if (confirmDelete){
-      toast.success("Deleted Project")
+async function handleDelete(id) {
+  const confirmDelete = confirm(
+    "Are you sure you want to delete this project?",
+  );
+  if (confirmDelete){
+    toast.success("Deleted Project")
+    addActivity(`Project deleted`);
+  }
+  if (!confirmDelete) return;
+  
+  try {
+    const res = await fetch(`/api/projects/${id}`, {
+      method: "DELETE",
+    });
+    
+    if (!res.ok) {
+      throw new Error("Delete failed");
     }
-    if (!confirmDelete) return;
-
-    try {
-      const res = await fetch(`/api/projects/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        throw new Error("Delete failed");
-      }
-
+    
       fetchProjects();
+localStorage.setItem("portfolio_sync", Date.now());
     } catch (error) {
       console.error(error);
     }
   }
+  
+  useEffect(() => {
+    const saved = localStorage.getItem("projectCategories");
+    
+    if (saved) {
+      setCategories(JSON.parse(saved));
+    }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem(
+      "projectCategories",
+      JSON.stringify(categories)
+    );
+  }, [categories]);
+  
+  const addCategory = () => {
+    if (!newCategory.trim()) return;
+    
+    setCategories([...categories, newCategory]);
+    
+    toast.success("Category Added");
+    addActivity(`Category "${newCategory}" added`);
+    setNewCategory("");
+  };
+  
+  const deleteCategory = (index) => {
+    const updated = categories.filter(
+    (_, i) => i !== index
+    
+  );
+  
+  setCategories(updated);
+  
+  toast.success("Category Deleted");
+addActivity(`Category deleted`);
+};
+
+const updateCategory = () => {
+  if (!newCategory.trim()) return;
+
+  const updated = [...categories];
+  
+  updated[editingCategory] = newCategory;
+  
+  setCategories(updated);
+  
+  setEditingCategory(null);
+  
+  setNewCategory("");
+  
+  toast.success("Category Updated");
+  addActivity(`Category updated`);
+};
+
+useEffect(() => {
+  async function fetchStats() {
+    const res = await fetch(`/api/user/stats/${user._id}`);
+    const data = await res.json();
+
+    setStats(data.user);
+  }
+
+  if (user?._id) fetchStats();
+}, [user]);
+
 
 const filteredProjects = projects
-  .filter((project) =>
-    project.title.toLowerCase().includes(searchTerm.toLowerCase())
+  .filter((p) =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
-  .filter((project) => {
+  .filter((p) => {
     if (filter === "all") return true;
-    if (filter === "featured") return project.featured;
-    if (filter === "completed") return project.status === "completed";
-    if (filter === "ongoing") return project.status === "ongoing";
+    if (filter === "completed") return p.status === "completed";
+    if (filter === "ongoing") return p.status === "ongoing";
+    if (filter === "featured") return p.featured;
     return true;
   })
-  .filter((project) => {
+  .filter((p) => {
     if (categoryFilter === "all") return true;
-    return project.category === categoryFilter;
+    return p.category === categoryFilter;
   });
-
-  const sortedProjects = [...filteredProjects];
+const sortedProjects = [...filteredProjects];
 
 if (filter === "newest") {
   sortedProjects.sort(
@@ -273,9 +489,30 @@ if (filter === "oldest") {
   );
 }
 
+
 const totalCategories = new Set(
   projects.map((p) => p.category)
 ).size;
+
+const projectsThisMonth = projects.filter((project) => {
+  const created = new Date(project.createdAt);
+  const now = new Date();
+
+  return (
+    created.getMonth() === now.getMonth() &&
+    created.getFullYear() === now.getFullYear()
+  );
+}).length;
+
+const visibleActivities = activities.slice(
+  0,
+  isMobile ? 6 : 12
+);
+
+if (loading) {
+  return <div>Loading...</div>;
+}
+
   return (
     <>
       <div className="bg-gray-200 min-h-screen flex justify-center pl-8 pr-4">
@@ -293,7 +530,7 @@ const totalCategories = new Set(
             <h1 className="md:text-4xl font-bold text-xl ">Welcome to My Portfolio</h1>
           </div>
 
-          <p className="md:text-lg text-gray-600 mb-8">
+          <p className="md:text-lg text-gray-600 mb-8 pl-2">
             Explore my skills and projects
           </p>
         </div>
@@ -301,7 +538,7 @@ const totalCategories = new Set(
 <div className="mb-4">
   <h2 className="font-bold md:text-2xl text-xl mb-3 text-center">Statistic cards</h2>
 
-  <div className="grid md:grid-cols-2 md:gap-3 gap-2">
+  <div className="grid md:grid-cols-2 md:gap-3 gap-2 w-fit mx-auto">
 
     {/* TOTAL PROJECTS */}
     <div className="bg-gray-400 rounded-lg md:py-6 md:px-4 font-semibold py-3 px-2">
@@ -330,24 +567,82 @@ const totalCategories = new Set(
         {projects.filter(p => p.status === "completed").length}
       </div>
     </div>
-
-  </div>
 </div>
 
+    <h1 className="text-center font-bold text-2xl mt-4">User Statics</h1>
+  <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold my-4 mb-0 w-fit mx-auto">
+  <span>Projects This Month: </span>
+  <span>{projectsThisMonth}</span>
 
+  <div>
+<p>Login Count: {stats?.loginCount ?? "Login first"}</p>
+<p>Profile Views: {stats?.profileViews ?? "Login first"}</p>
+  <p>
+    Account Created at:{" "}
+{stats?.createdAt
+  ? new Date(stats.createdAt).toLocaleDateString()
+  : "Not available"}
+  </p>
+</div>
+</div>
+  </div>
 
-        <div className="px-3">
+<div className="bg-gray-300 p-4 rounded-lg my-6">
+  <h2 className="text-xl font-bold mb-3">Recent Activities</h2>
+
+  {visibleActivities.length === 0 ? (
+    <p className="text-gray-600">No activity yet</p>
+  ) : (
+    <ul className="grid gap-2 md:grid-cols-3 grid-cols-1">
+      {visibleActivities.map((act) => (
+        <li
+          key={act.id}
+          className="bg-gray-200 p-2 rounded-md text-sm"
+        >
+          <div className="font-semibold truncate w-35">{act.text}</div>
+          <div className="text-xs text-gray-500">{act.time}</div>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+        <div className="">
           <h2 className="md:text-2xl text-xl font-bold mb-4 text-center">Skill section</h2>
+<div className="flex flex-col">
 
-          {skills.length === 0 ? (
+<input
+  type="text"
+  placeholder="Search skills..."
+  value={skillSearch}
+  onChange={(e) => setSkillSearch(e.target.value)}
+  className="border rounded-lg p-2 mb-4 ml-2"
+/>
+
+<select
+  value={skillFilter}
+  onChange={(e) => setSkillFilter(e.target.value)}
+  className="border rounded-lg p-2 mb-4 md:w-40 md:mx-2 mx-10"
+>
+  <option value="all">All Skills</option>
+  <option value="Frontend">Frontend</option>
+  <option value="Backend">Backend</option>
+  <option value="Database">Database</option>
+  <option value="Tools">Tools</option>
+</select>
+  </div>
+
+          {filteredSkills.length === 0 ? (
             <p className="text-gray-700 mb-4 font-semibold text-center">
               No skills added yet.
             </p>
           ) : (
+            
             <ul className="list-disc list-inside text-gray-700">
-              {skills.map((skill, index) => (
-                <li key={index} className="flex md:gap-50 gap-25 mb-2 justify-between">
-                  <span className="font-semibold">{skill}</span>
+              {filteredSkills.map((skill, index) => (
+               
+                <li key={index} className="flex md:gap-50 gap-15 mb-2 justify-between">
+                  <span className="font-semibold text-black truncate md:w-40 w-30">{skill.name}</span>
                   <div className="flex gap-2 items-center">
                     {/* EDIT */}
                     <img
@@ -381,6 +676,7 @@ const totalCategories = new Set(
           </div>
 
           {showInput && (
+            
             <div className="flex md:flex-row flex-col items-center gap-2 my-4 ">
               <input
                 onChange={(e) => setinput(e.target.value)}
@@ -389,6 +685,16 @@ const totalCategories = new Set(
                 placeholder="Enter new skill"
                 className="md:px-4 px-2 md:py-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 md:mr-2"
                 />
+                <select
+  value={skillCategory}
+  onChange={(e) => setSkillCategory(e.target.value)}
+  className="border rounded-lg p-2"
+>
+  <option value="Frontend">Frontend</option>
+  <option value="Backend">Backend</option>
+  <option value="Database">Database</option>
+  <option value="Tools">Tools</option>
+</select>
               <button
                 onClick={() => {
                   addskill();
@@ -405,7 +711,9 @@ const totalCategories = new Set(
             </div>
           )}
         </div>
-        <div className="mx-auto md:w-150 w-60 md:px-2">
+
+
+        <div className="mx-auto md:w-160 w-60 md:px-2 ml-2">
           <h3 className="md:text-2xl text-xl font-bold my-4 text-center">Project section</h3>
 
 <div className="flex md:flex-row flex-col gap-5 mb-4">
@@ -416,17 +724,86 @@ const totalCategories = new Set(
   onChange={(e) => setSearchTerm(e.target.value)}
   className="border py-1 rounded-lg px-2 md:w-100 w-50 mx-auto"
 />
-<div className="bg-gray-400 rounded-lg md:px-4 px-2 font-semibold md:py-2 py-1 w-50 mx-auto">
-  <span className="font-normal">Categories: </span>
-  <span>{totalCategories}</span>
-</div>
+
+
+
   </div>
+<div className="bg-gray-300 p-4 rounded-lg mb-4 md:w-100 mx-auto">
 
+<h2 className="font-bold md:text-xl text-lg mb-3 text-center">
+Project Categories
+</h2>
 
+<div className="flex gap-2 md:flex-row flex-col mb-3">
+
+<input
+  type="text"
+  value={newCategory}
+  placeholder="Enter category"
+  onChange={(e) =>
+    setNewCategory(e.target.value)
+  }
+  className="border rounded-lg p-2"
+/>
+<button
+  onClick={
+    editingCategory !== null
+    ? updateCategory
+    : addCategory
+  }
+  className="bg-blue-500 hover:bg-blue-600 text-white md:px-3 px-2 md:py-2 py-1 transition duration-300 cursor-pointer rounded"
+>
+
+  {editingCategory !== null
+    ? "Update"
+    : "Add"}
+</button>
+    
+
+</div>
+
+{categories.map((cat, index) => (
+  <div
+    key={index}
+    className="flex justify-between mb-2 font-semibold gap-2"
+  >
+    <span className="md:w-auto w-100 truncate">{cat}</span>
+
+    <div className="flex gap-2">
+      <button
+        onClick={() => {
+          setEditingCategory(index);
+          setNewCategory(cat);
+        }}
+        className="bg-green-600 px-2 rounded text-white hover:cursor-pointer transition duration-300 hover:bg-green-700"
+      >
+        Edit
+      </button>
+
+      <button
+        onClick={() =>
+          deleteCategory(index)
+        }
+        className="bg-red-500 px-2 rounded text-white hover:cursor-pointer transition duration-300 hover:bg-red-600"
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </div>
+))}
+</div>
+
+<div className="flex md:flex-row flex-col items-center gap-3 justify-center">
+
+  <div className="font-semibold border px-2 py-2 rounded-lg">Categories: {categories.length}</div>
+
+<div className="flex gap-3">
 <select
   value={filter}
   onChange={(e) => setFilter(e.target.value)}
-  className="md:w-auto w-50 mx-4 border rounded-lg py-1 md:py-2 md:px-3 px-2 mb-4"
+  className="border rounded-lg py-1 md:py-2 md:px-3 px-1"
 >
   <option value="all">All Projects</option>
   <option value="completed">Completed</option>
@@ -436,17 +813,30 @@ const totalCategories = new Set(
 <option value="oldest">Oldest First</option>
 </select>
 
+
 <select
   value={categoryFilter}
   onChange={(e) => setCategoryFilter(e.target.value)}
-  className="border w-50 md:w-auto rounded-lg p-2 mx-4"
+  className="border rounded-md md:p-2 p-1 md:w-fit w-30 pr-4"
 >
   <option value="all">All Categories</option>
-  <option value="Web Development">Web Development</option>
-  <option value="Mobile App">Mobile App</option>
-  <option value="AI">AI</option>
-  <option value="Game Development">Game Development</option>
+
+  {categories.map((cat, i) => (
+    <option key={i} value={cat}>
+      {cat}
+    </option>
+  ))}
 </select>
+    </div>
+
+<button
+  onClick={() => window.open("/preview", "_blank")}
+  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer transition duration-300"
+>
+  Preview Portfolio
+</button>
+
+  </div>
           <div className="grid md:grid-cols-2 grid-col-1 md:gap-4 gap-2 md:w-auto w-45 mx-5 my-4">
             {sortedProjects.length === 0 ? (
               <div className="text-gray-600 text-center">No Projects Found.</div>
@@ -483,7 +873,10 @@ const totalCategories = new Set(
                     <span className="text-gray-500 ">(Invalid link)</span>
                   )}
                   <div>{p.description}</div>
-                 
+                
+                 <div className="text-sm text-gray-600">
+  Created: {new Date(p.createdAt).toLocaleDateString()}
+</div>
 
                   <div className="flex gap-2 mt-4">
                     <button
@@ -526,15 +919,23 @@ const totalCategories = new Set(
       className="md:w-full w-50 mb-2 border rounded-lg p-2"
     />
 
+   <div className="flex items-center gap-3 mb-2">
+  <label className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded">
+    Choose Image
+
     <input
-      type="text"
-      placeholder="Image URL"
-      value={editForm.image}
-      onChange={(e) =>
-        setEditForm({ ...editForm, image: e.target.value })
-      }
-      className="md:w-full w-50 mb-2 border rounded-lg p-2"
+      type="file"
+      accept="image/*"
+      onChange={handleEditProjectFile}
+      className="hidden"
     />
+  </label>
+
+  <span className="text-sm">
+     {editProjectFile?.name || "No file selected"}
+  </span>
+</div>
+
 
     <textarea
       placeholder="Description"
@@ -556,10 +957,11 @@ const totalCategories = new Set(
               })
             }
             >
-            <option value="Web Development">Web Development</option>
-            <option value="Mobile App">Mobile App</option>
-            <option value="AI">AI</option>
-            <option value="Game Development">Game Development</option>
+          {categories.map((cat, i) => (
+  <option key={i} value={cat}>
+    {cat}
+  </option>
+))}
           </select>
             </div>
 
@@ -640,15 +1042,29 @@ const totalCategories = new Set(
       className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
     />
 
+    
+
+
+<div className="flex items-center gap-3 mb-2">
+  <label className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded">
+    Choose Image
+
     <input
-      type="text"
-      placeholder="Image URL"
-      value={addForm.image}
-      onChange={(e) =>
-        setAddForm({ ...addForm, image: e.target.value })
-      }
-      className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
+      type="file"
+      accept="image/*"
+      onChange={handleProjectFile}
+      className="hidden"
     />
+  </label>
+
+  <span className="text-sm">
+    {projectFile?.name || "No file selected"}
+  </span>
+</div>
+
+
+
+
 
     <textarea
       placeholder="Description"
@@ -660,20 +1076,19 @@ const totalCategories = new Set(
     />
     <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center">
       <div className="">Select Category type:</div>
-          <select className="font-semibold border rounded-md p-2"
-            value={addForm.category}
-            onChange={(e) =>
-              setAddForm({
-                ...addForm,
-                category: e.target.value,
-              })
-            }
-            >
-            <option value="Web Development">Web Development</option>
-            <option value="Mobile App">Mobile App</option>
-            <option value="AI">AI</option>
-            <option value="Game Development">Game Development</option>
-          </select>
+          <select
+  value={addForm.category}
+  onChange={(e) =>
+    setAddForm({ ...addForm, category: e.target.value })
+  }
+  className="font-semibold border rounded-md p-2"
+>
+  {categories.map((cat, i) => (
+    <option key={i} value={cat}>
+      {cat}
+    </option>
+  ))}
+</select>
             </div>
 
     {/* FEATURED */}
