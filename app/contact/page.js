@@ -7,6 +7,7 @@ const Page = () => {
 
 const [contact, setContact] = useState(null);
 
+
 useEffect(() => {
   fetchContact();
 }, []);
@@ -16,14 +17,15 @@ async function fetchContact() {
   const data = await res.json();
 
   setContact(data);
+  
 }
 
-if (!contact) {
-  return <div>Loading...</div>;
-}
+
   return (
     <ProtectedRoute>
-
+ {!contact ? (
+      <div>Loading...</div>
+    ) : (
     <div className='bg-gray-200 min-h-screen py-2 md:px-10 sm:px-2'>
       <div className='mx-auto md:w-200 sm:w-100 w-47'>
 
@@ -49,6 +51,7 @@ if (!contact) {
 <p className='md:text-lg text-gray-600 mt-2 md:w-fit w-50 px-auto'>{contact.note}</p>
       </div>
     </div>
+    )}
     </ProtectedRoute>
   )
 }
