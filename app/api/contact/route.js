@@ -1,32 +1,14 @@
 import { connectDB } from "@/lib/mongodb";
 import Contact from "@/models/Contact";
 
-// export async function GET() {
-//   await connectDB();
-
-//   const contact = await Contact.findOne();
-
-//   return Response.json(contact);
-// }
 export async function GET() {
-  try {
-    await connectDB();
+  await connectDB();
 
-    const contacts = await Contact.find();
+  const contact = await Contact.findOne();
 
-    return Response.json({
-      count: contacts.length,
-      contacts,
-    });
-  } catch (error) {
-    return Response.json(
-      {
-        error: error.message,
-      },
-      { status: 500 }
-    );
-  }
+  return Response.json(contact);
 }
+
 
 export async function POST(req) {
   await connectDB();

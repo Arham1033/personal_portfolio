@@ -16,8 +16,9 @@ async function fetchContact() {
   const res = await fetch("/api/contact");
   const data = await res.json();
 
+  console.log("contact data:",  ata)
   setContact(data);
-  setLoading(false);
+
 }
 
 // 👇 ADD THIS HERE
@@ -52,7 +53,7 @@ if (!contact) {
   Gmail:
   </span>
 
-   <span className='md:font-semibold md:text-lg text-sm'>{contact.email}</span></p>
+   <span className='md:font-semibold md:text-lg text-sm'>  {JSON.stringify(contact)}</span></p>
 
 <p className='md:text-lg text-gray-600 mt-4'>My Phone number: <span className='font-semibold'>{contact.phone}</span></p>
 
