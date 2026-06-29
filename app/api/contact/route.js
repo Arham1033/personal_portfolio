@@ -18,7 +18,14 @@ export async function GET() {
       count: contacts.length,
       contacts,
     });
-  } 
+  } catch (error) {
+    return Response.json(
+      {
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req) {
