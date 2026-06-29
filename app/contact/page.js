@@ -16,7 +16,7 @@ async function fetchContact() {
   const res = await fetch("/api/contact");
   const data = await res.json();
 
-  console.log("contact data:",  ata)
+  console.log("contact data:",  data)
   setContact(data);
 
 }
