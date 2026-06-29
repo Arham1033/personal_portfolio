@@ -4,16 +4,11 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import React from "react";
 import Link from "next/link";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {
-  const defaultSkills = [
-  { name: "JavaScript", category: "Frontend" },
-  { name: "React", category: "Frontend" },
-  { name: "Next.js", category: "Frontend" },
-  { name: "MongoDB", category: "Database" },
-];
 const [skillFilter, setSkillFilter] = useState("all");
-  const [skills, setskills] = useState(defaultSkills);
+  const [skills, setskills] = useState([]);
   const [showBtn, setshowBtn] = useState(false);
     const [user, setUser] = useState(null);
   const [stats, setStats] = useState(null);
@@ -21,7 +16,7 @@ const [skillFilter, setSkillFilter] = useState("all");
   const [input, setinput] = useState("");
   const [editIndex, seteditIndex] = useState(null);
   const [skillCategory, setSkillCategory] = useState("Frontend");
-  const isDisabled = input.trim() === "";
+ const isDisabled = !input?.trim();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [projectFile, setProjectFile] = useState(null);
@@ -71,6 +66,7 @@ const [editForm, setEditForm] = useState({
     fetchProjects();
   }, []);
   
+
   useEffect(() => {
     const stored = localStorage.getItem("user");
     
@@ -97,7 +93,7 @@ const [editForm, setEditForm] = useState({
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
- const filteredSkills = skills
+  const filteredSkills = skills
   .filter((skill) => {
     if (skillFilter === "all") return true;
     return skill.category === skillFilter;
@@ -105,10 +101,10 @@ const [editForm, setEditForm] = useState({
   .filter((skill) =>
     skill.name.toLowerCase().includes(skillSearch.toLowerCase())
   );
-
+  
   useEffect(() => {
   const saved = localStorage.getItem("activities");
-
+  
   if (saved) {
     setActivities(JSON.parse(saved));
   }
@@ -131,14 +127,14 @@ const addActivity = (text) => {
 const handleProjectFile = (e) => {
   const selected = e.target.files[0];
   if (!selected) return;
-
+  
   setProjectFile(selected);
 
   const reader = new FileReader();
-
+  
   reader.onloadend = () => {
     setProjectPreview(reader.result);
-
+    
     setAddForm((prev) => ({
       ...prev,
       image: reader.result,
@@ -152,6 +148,12 @@ const handleProjectFile = (e) => {
     const data = await res.json();
     setProjects(data);
   }
+
+  async function fetchSkills() {
+  const res = await fetch("/api/skills");
+  const data = await res.json();
+  setskills(data);
+}
 
   // Handle submit
  async function handleAddProject() {
@@ -193,97 +195,137 @@ const handleProjectFile = (e) => {
   }
 }
 
- useEffect(() => {
-  const saved = localStorage.getItem("skills");
-
-  if (saved) {
-    const parsedSkills = JSON.parse(saved);
-
-    const fixedSkills = parsedSkills.map((skill) =>
-      typeof skill === "string"
-        ? { name: skill, category: "Frontend" }
-        : skill
-    );
-
-    if (fixedSkills.length > 0) {
-      setskills(fixedSkills);
-    } else {
-      setskills(defaultSkills);
-    }
-  } else {
-    setskills(defaultSkills);
-  }
-
-  setLoading(false);
+useEffect(() => {
+  fetchSkills();
 }, []);
 
-  const openMenu = () => {
+async function fetchSkills() {
+  try {
+    const res = await fetch("/api/skills");
+    const data = await res.json();
+
+    setskills(data);
+    setLoading(false);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+const openMenu = () => {
     setshowInput(true);
     setshowBtn(true);
   };
   
-  const addskill = () => {
+const addskill = async () => {
   if (input.trim() === "") return;
 
-  let updatedSkills = [...skills];
+  try {
+    if (editIndex !== null) {
+      await fetch(`/api/skills/${editIndex}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: input,
+          category: skillCategory,
+        }),
+      });
 
-  if (editIndex !== null) {
-    updatedSkills[editIndex] = {
-      name: input,
-      category: skillCategory,
-    };
+      toast.success("Skill updated");
+      addActivity(`Skill "${input}" updated`);
+      await fetch("/api/notifications", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    message: `Skill "${input}" updated successfully`,
+    type: "info",
+  }),
+});
+    } else {
+      await fetch("/api/skills", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: input,
+          category: skillCategory,
+        }),
+      });
 
-    toast.success("Skill updated successfully");
-    addActivity(`Skill "${input}" updated`);
+      toast.success("Skill added");
+      addActivity(`Skill "${input}" added`);
+      await fetch("/api/notifications", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    message: `Skill "${input}" added successfully`,
+    type: "success",
+  }),
+});
+    }
+
+    setinput("");
+    setSkillCategory("Frontend");
+    setshowInput(false);
+    setshowBtn(false);
     seteditIndex(null);
-  localStorage.setItem("portfolio_sync", Date.now());
-  } else {
-    updatedSkills.push({
-      name: input,
-      category: skillCategory,
-    });
 
-    toast.success("Skill Added Successfully");
-    addActivity(`Skill "${input}" added`);
-    localStorage.setItem("portfolio_sync", Date.now());
+    fetchSkills();
+
+  } catch (err) {
+    console.error(err);
   }
-
-  setskills(updatedSkills);
-  setinput("");
-  setSkillCategory("Frontend");
-  setshowInput(false);
-  setshowBtn(false);
 };
 
-  const editSkill = (index) => {
-  seteditIndex(index);
-  setinput(skills[index].name);
-  setSkillCategory(skills[index].category);
+const editSkill = (skill) => {
+  seteditIndex(skill._id);
+
+  setinput(skill.name);
+
+  setSkillCategory(skill.category);
 
   setshowInput(true);
+
   setshowBtn(true);
 };
 
-  const deleteSkill = (index) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this skill?",
-    );
-if (confirmDelete){
-  toast.success("Deleted Successfully")
-  addActivity(`Skill deleted`);
-}
-    if (!confirmDelete) return;
 
-    const updatedSkills = skills.filter((_, i) => i !== index);
-    setskills(updatedSkills);
-    localStorage.setItem("portfolio_sync", Date.now());
-  };
+const deleteSkill = async (id) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this skill?"
+  );
 
-  useEffect(() => {
-    if (!loading) {
-      localStorage.setItem("skills", JSON.stringify(skills));
-    }
-  }, [skills, loading]);
+  if (!confirmDelete) return;
+
+  try {
+    await fetch(`/api/skills/${id}`, {
+      method: "DELETE",
+    });
+
+    toast.success("Deleted Successfully");
+    addActivity("Skill deleted");
+    await fetch("/api/notifications", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "Skill deleted successfully",
+        type: "warning",
+      }),
+    });
+    fetchSkills();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
   
   function isValidUrl(string) {
@@ -313,6 +355,20 @@ if (confirmDelete){
   reader.readAsDataURL(selected);
 };
 
+const fetchCategories = async () => {
+try {
+  const res = await fetch("/api/categories");
+  const data = await res.json();
+
+  setCategories(data);
+} catch (error) {
+  console.log(error);
+}
+};
+
+useEffect(() => {
+fetchCategories();
+}, []);
 
 function handleEdit(project) {
   setEditingId(project._id);
@@ -408,44 +464,80 @@ localStorage.setItem("portfolio_sync", Date.now());
       JSON.stringify(categories)
     );
   }, [categories]);
-  
-  const addCategory = () => {
-    if (!newCategory.trim()) return;
-    
-    setCategories([...categories, newCategory]);
-    
-    toast.success("Category Added");
-    addActivity(`Category "${newCategory}" added`);
-    setNewCategory("");
-  };
-  
-  const deleteCategory = (index) => {
-    const updated = categories.filter(
-    (_, i) => i !== index
-    
-  );
-  
-  setCategories(updated);
-  
-  toast.success("Category Deleted");
-addActivity(`Category deleted`);
-};
-
-const updateCategory = () => {
+ 
+  const addCategory = async () => {
   if (!newCategory.trim()) return;
 
-  const updated = [...categories];
+  try {
+    const res = await fetch("/api/categories", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newCategory,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Failed to add category");
+      return;
+    }
+
+    toast.success("Category Added");
+
+    setNewCategory("");
+
+    fetchCategories();
+  } catch (error) {
+    console.log(error);
+  }
+};
   
-  updated[editingCategory] = newCategory;
-  
-  setCategories(updated);
-  
-  setEditingCategory(null);
-  
-  setNewCategory("");
-  
-  toast.success("Category Updated");
-  addActivity(`Category updated`);
+ const deleteCategory = async (id) => {
+  try {
+    const res = await fetch(`/api/categories/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      toast.error("Delete failed");
+      return;
+    }
+
+    toast.success("Category Deleted");
+    addActivity("Category deleted");
+
+    fetchCategories();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateCategory = async () => {
+  if (!newCategory.trim()) return;
+
+  const res = await fetch(`/api/categories/${editingCategory}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: newCategory,
+    }),
+  });
+
+  if (res.ok) {
+    await fetchCategories(); // Refresh from MongoDB
+
+    toast.success("Category Updated");
+    addActivity("Category updated");
+
+    setEditingCategory(null);
+    setNewCategory("");
+  } else {
+    toast.error("Failed to update category");
+  }
 };
 
 useEffect(() => {
@@ -515,6 +607,8 @@ if (loading) {
 
   return (
     <>
+     <ProtectedRoute>
+
       <div className="bg-gray-200 min-h-screen flex justify-center pl-8 pr-4">
   <div className="flex flex-col justify-center items-center">
 
@@ -570,7 +664,7 @@ if (loading) {
 </div>
 
     <h1 className="text-center font-bold text-2xl mt-4">User Statics</h1>
-  <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold my-4 mb-0 w-fit mx-auto">
+  <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold my-4 mb-0 w-50 mx-auto">
   <span>Projects This Month: </span>
   <span>{projectsThisMonth}</span>
 
@@ -596,8 +690,8 @@ if (loading) {
     <ul className="grid gap-2 md:grid-cols-3 grid-cols-1">
       {visibleActivities.map((act) => (
         <li
-          key={act.id}
-          className="bg-gray-200 p-2 rounded-md text-sm"
+        key={act.id}
+        className="bg-gray-200 p-2 rounded-md text-sm"
         >
           <div className="font-semibold truncate w-35">{act.text}</div>
           <div className="text-xs text-gray-500">{act.time}</div>
@@ -608,7 +702,7 @@ if (loading) {
 </div>
 
         <div className="">
-          <h2 className="md:text-2xl text-xl font-bold mb-4 text-center">Skill section</h2>
+          <h2 className="md:text-2xl text-xl font-bold mb-4 text-center ">Skill section</h2>
 <div className="flex flex-col">
 
 <input
@@ -638,10 +732,10 @@ if (loading) {
             </p>
           ) : (
             
-            <ul className="list-disc list-inside text-gray-700">
-              {filteredSkills.map((skill, index) => (
-               
-                <li key={index} className="flex md:gap-50 gap-15 mb-2 justify-between">
+            <ul className="list-disc list-inside text-gray-700 w-50 sm:w-100">
+              {filteredSkills.map((skill) => (
+                
+                <li key={skill._id} className="flex md:gap-50 gap-15 mb-2 justify-between">
                   <span className="font-semibold text-black truncate md:w-40 w-30">{skill.name}</span>
                   <div className="flex gap-2 items-center">
                     {/* EDIT */}
@@ -649,14 +743,14 @@ if (loading) {
                       src="/pencil.svg"
                       alt="edit"
                       className="md:w-5 md:h-5 h-4 w-4 cursor-pointer"
-                      onClick={() => editSkill(index)}
+                      onClick={() => editSkill(skill)}
                       />
                     {/* DELETE */}
                     <img
                       src="/delete.svg"
                       alt="delete"
                       className="md:w-5 h-4 md:h-5 w-5 cursor-pointer"
-                      onClick={() => deleteSkill(index)}
+                      onClick={() => deleteSkill(skill._id)}
                       />
                   </div>
                 </li>
@@ -702,8 +796,8 @@ if (loading) {
                 disabled={isDisabled}
                 className={`md:px-4 px-2 md:py-2 py-1 rounded-lg transition duration-300 ${
                   isDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-gray-400 hover:bg-gray-500 cursor-pointer"
+                  ? "bg-green-500 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-gray-500 cursor-pointer"
                 }`}
                 >
                 Add
@@ -713,7 +807,7 @@ if (loading) {
         </div>
 
 
-        <div className="mx-auto md:w-160 w-60 md:px-2 ml-2">
+        <div className="mx-auto md:w-160 w-60 md:px-2 ">
           <h3 className="md:text-2xl text-xl font-bold my-4 text-center">Project section</h3>
 
 <div className="flex md:flex-row flex-col gap-5 mb-4">
@@ -762,48 +856,45 @@ Project Categories
 
 </div>
 
-{categories.map((cat, index) => (
+{categories.map((cat) => (
   <div
-    key={index}
+    key={cat._id}
     className="flex justify-between mb-2 font-semibold gap-2"
   >
-    <span className="md:w-auto w-100 truncate">{cat}</span>
+    <span className="md:w-auto w-100 truncate">
+      {cat.name}
+    </span>
 
     <div className="flex gap-2">
-      <button
+      <button className="hover:cursor-pointer transition duration-300 bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md"
         onClick={() => {
-          setEditingCategory(index);
-          setNewCategory(cat);
+          setEditingCategory(cat._id);
+          setNewCategory(cat.name);
         }}
-        className="bg-green-600 px-2 rounded text-white hover:cursor-pointer transition duration-300 hover:bg-green-700"
-      >
+        >
         Edit
       </button>
 
-      <button
-        onClick={() =>
-          deleteCategory(index)
-        }
-        className="bg-red-500 px-2 rounded text-white hover:cursor-pointer transition duration-300 hover:bg-red-600"
+      <button className="hover:cursor-pointer transition duration-300 bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md"
+        onClick={() => deleteCategory(cat._id)}
       >
         Delete
       </button>
-
     </div>
-
   </div>
 ))}
+
 </div>
 
 <div className="flex md:flex-row flex-col items-center gap-3 justify-center">
 
   <div className="font-semibold border px-2 py-2 rounded-lg">Categories: {categories.length}</div>
 
-<div className="flex gap-3">
+<div className="flex md:gap-3 gap-1">
 <select
   value={filter}
   onChange={(e) => setFilter(e.target.value)}
-  className="border rounded-lg py-1 md:py-2 md:px-3 px-1"
+  className="border rounded-lg py-1 md:py-2 md:px-3 px-0 sm:px-1 ml-2"
 >
   <option value="all">All Projects</option>
   <option value="completed">Completed</option>
@@ -817,13 +908,13 @@ Project Categories
 <select
   value={categoryFilter}
   onChange={(e) => setCategoryFilter(e.target.value)}
-  className="border rounded-md md:p-2 p-1 md:w-fit w-30 pr-4"
+  className="border rounded-md md:p-2 sm:p-1 md:w-fit w-30"
 >
   <option value="all">All Categories</option>
 
-  {categories.map((cat, i) => (
-    <option key={i} value={cat}>
-      {cat}
+   {categories.map((cat) => (
+    <option key={cat._id} value={cat.name}>
+      {cat.name}
     </option>
   ))}
 </select>
@@ -897,7 +988,7 @@ Project Categories
                   </div>
 
            {editingId === p._id && (
-  <div className="bg-gray-200 rounded-md md:p-4 mt-4">
+             <div className="bg-gray-200 rounded-md md:p-4 mt-4">
 
     <input
       type="text"
@@ -907,7 +998,7 @@ Project Categories
         setEditForm({ ...editForm, title: e.target.value })
       }
       className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
-    />
+      />
 
     <input
       type="text"
@@ -928,7 +1019,7 @@ Project Categories
       accept="image/*"
       onChange={handleEditProjectFile}
       className="hidden"
-    />
+      />
   </label>
 
   <span className="text-sm">
@@ -944,7 +1035,7 @@ Project Categories
         setEditForm({ ...editForm, description: e.target.value })
       }
       className="md:w-full w-50 mb-2 border rounded-lg p-2"
-    />
+      />
 
      <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center">
       <div>Select Category type:</div>
@@ -957,9 +1048,9 @@ Project Categories
               })
             }
             >
-          {categories.map((cat, i) => (
-  <option key={i} value={cat}>
-    {cat}
+   {categories.map((cat) => (
+     <option key={cat._id} value={cat.name}>
+    {cat.name}
   </option>
 ))}
           </select>
@@ -987,7 +1078,7 @@ Project Categories
         setEditForm({ ...editForm, status: e.target.value })
       }
       className="md:w-full w-50 mb-2 border rounded-lg p-2"
-    >
+      >
       <option value="ongoing">Ongoing</option>
       <option value="completed">Completed</option>
     </select>
@@ -995,7 +1086,7 @@ Project Categories
     <button
       onClick={handleUpdateProject}
       className="bg-green-500 text-white px-4 py-2 rounded"
-    >
+      >
       Update Project
     </button>
   </div>
@@ -1013,7 +1104,7 @@ Project Categories
                 setShowForm(!showForm);
               }}
               className="md:px-4 px-2 font-normal text-black text-md md:py-2 py-1 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer w-auto mx-auto"
-            >
+              >
               Add Project
             </button>
 
@@ -1030,7 +1121,7 @@ Project Categories
         setAddForm({ ...addForm, title: e.target.value })
       }
       className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
-    />
+      />
 
     <input
       type="text"
@@ -1040,7 +1131,7 @@ Project Categories
         setAddForm({ ...addForm, link: e.target.value })
       }
       className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
-    />
+      />
 
     
 
@@ -1054,7 +1145,7 @@ Project Categories
       accept="image/*"
       onChange={handleProjectFile}
       className="hidden"
-    />
+      />
   </label>
 
   <span className="text-sm">
@@ -1083,9 +1174,9 @@ Project Categories
   }
   className="font-semibold border rounded-md p-2"
 >
-  {categories.map((cat, i) => (
-    <option key={i} value={cat}>
-      {cat}
+   {categories.map((cat) => (
+     <option key={cat._id} value={cat.name}>
+      {cat.name}
     </option>
   ))}
 </select>
@@ -1121,7 +1212,7 @@ Project Categories
     <button
       onClick={handleAddProject}
       className="bg-blue-500 text-white px-4 py-2 rounded"
-    >
+      >
       Save Project
     </button>
 
@@ -1131,6 +1222,7 @@ Project Categories
  </div>
       </div>
               </div>
+</ProtectedRoute>
     </>
   );
 }

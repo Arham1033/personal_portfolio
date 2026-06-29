@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -130,6 +131,8 @@ useEffect(() => {
   if (!user) return <div className="min-h-screen text-center flex items-center justify-center font-bold text-2xl">Not logged in</div>;
 
   return (
+    <ProtectedRoute>
+
     <div className="min-h-screen flex justify-center p-10 md:w-100 w-50 mx-auto">
       <div className="bg-white rounded-lg w-80">
 
@@ -137,7 +140,7 @@ useEffect(() => {
           <img
             src={preview || form.profileImage || "/default-avatar.jpg"}
             className="md:w-full md:h-full w-50 h-50 object-cover"
-          />
+            />
         </div>
 
         {!editMode ? (
@@ -181,7 +184,7 @@ useEffect(() => {
                   alt="change password"
                   width={20}
                   height={20}
-                />
+                  />
               </button>
             </div>
             <button
@@ -242,7 +245,7 @@ useEffect(() => {
                   })
                 }
                 className="border p-2 rounded-md w-full"
-              />
+                />
 
               <button
                 type="button"
@@ -270,31 +273,32 @@ useEffect(() => {
                   })
                 }
                 className="border p-2 rounded-md w-full"
-              />
+                />
 
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
                 className="absolute right-2 top-2 cursor-pointer"
-              >
+                >
                 <Image
                   src={showNewPassword ? "/eye-show.svg" : "/eye-off.svg"}
                   alt="Toggle password"
                   width={20}
                   height={20}
-                />
+                  />
               </button>
             </div>
 
             <button
               onClick={handleUpdate}
               className="bg-green-500 text-white transition duration-300 cursor-pointer hover:bg-green-600 px-3 py-1 rounded"
-            >
+              >
               Save
             </button>
           </div>
         )}
       </div>
     </div>
+        </ProtectedRoute>
   );
 }

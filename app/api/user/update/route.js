@@ -1,6 +1,8 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import Notification from "@/models/Notification";
+
 
 export async function PUT(req) {
   try {
@@ -63,6 +65,11 @@ export async function PUT(req) {
     }
 
     await user.save();
+
+    await Notification.create({
+  message: "Profile updated successfully",
+  type: "info",
+});
 
     return Response.json({
       message: "Profile updated",

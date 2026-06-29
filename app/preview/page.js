@@ -49,9 +49,9 @@ export default function Preview() {
       <div className="mb-8 text-center">
         <h2 className="md:text-xl text-lg font-bold mb-2">Skills</h2>
         <div className="flex flex-wrap gap-2 justify-center md:w-100 w-50 mx-auto">
-          {skills.map((skill, index) => (
+          {skills.map((skill) => (
             <span
-              key={index}
+              key={skill._id}
               className="bg-gray-300 px-4 py-2 rounded-full text-sm font-semibold"
             >
               {skill.name}

@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Project from "@/models/project";
+import Notification from "@/models/Notification";
 
 export const runtime = "nodejs";
 
@@ -8,7 +9,12 @@ export async function DELETE(req, context) {
 
   await connectDB();
 
-  await Project.findByIdAndDelete(id);
+  const deletedProject = await Project.findByIdAndDelete(id);
+
+  await Notification.create({
+    message: `Project "${deletedProject.title}" deleted`,
+    type: "warning",
+  });
 
   return Response.json({
     message: "Project deleted",
@@ -27,6 +33,11 @@ export async function PUT(req, context) {
     body,
     { new: true }
   );
+
+  await Notification.create({
+    message: `Project "${updatedProject.title}" updated successfully`,
+    type: "info",
+  });
 
   return Response.json(updatedProject);
 }
