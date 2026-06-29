@@ -6,7 +6,7 @@ import React from 'react'
 const Page = () => {
 
 const [contact, setContact] = useState(null);
-
+const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   fetchContact();
@@ -17,15 +17,30 @@ async function fetchContact() {
   const data = await res.json();
 
   setContact(data);
-  
+  setLoading(false);
 }
 
+// 👇 ADD THIS HERE
+if (loading) {
+  return (
+    <ProtectedRoute>
+      <div>Loading...</div>
+    </ProtectedRoute>
+  );
+}
+
+if (!contact) {
+  return (
+    <ProtectedRoute>
+      <div>No contact information available.</div>
+    </ProtectedRoute>
+  );
+}
+
+// 👇 THEN YOUR EXISTING RETURN
 
   return (
     <ProtectedRoute>
- {!contact ? (
-      <div>Loading...</div>
-    ) : (
     <div className='bg-gray-200 min-h-screen py-2 md:px-10 sm:px-2'>
       <div className='mx-auto md:w-200 sm:w-100 w-47'>
 
@@ -50,8 +65,7 @@ async function fetchContact() {
 <h2 className='text-xl md:font-bold font-semibold mt-6'>Important note:</h2>
 <p className='md:text-lg text-gray-600 mt-2 md:w-fit w-50 px-auto'>{contact.note}</p>
       </div>
-    </div>
-    )}
+  </div>
     </ProtectedRoute>
   )
 }
