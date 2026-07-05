@@ -2,17 +2,17 @@
 **A full-stack portfolio management system built using Next.js, MongoDB, and JWT Authentication.**
 
 ## Features
-**-User Authentication
--Dashboard
--Add/Edit/Delete Projects
--Contact Management
--Skills Management
--Search
--Filters
--Image Upload
--Profile Management
--Notifications
--Responsive Design**
+- User Authentication
+- Dashboard
+- Add/Edit/Delete Projects
+- Contact Management
+- Skills Management
+- Search
+- Filters
+- Image Upload
+- Profile Management
+- Notifications
+- Responsive Design
 
 
 ## Installation Guide
@@ -69,32 +69,32 @@ http://localhost:3000
 
 ##Folder Structure
 
-portfolio/
-│
-├── app/
-│   ├── about/
-│   ├── api/
-│   ├── content/
-│   ├── login/
-│   └── preview/
-│   └── profile/
-│   └── register/
-│   └── page.js
-│   └── layout.js
-│
-├── components/
-│
-├── context/
-│
-├── lib/
-│
-├── models/
-│
-├── public/
-│
-├── .env
-│
-├── package.json
+- portfolio/
+- │
+- ├── app/
+- │   ├── about/
+- │   ├── api/
+- │   ├── content/
+- │   ├── login/
+- │   └── preview/
+- │   └── profile/
+- │   └── register/
+- │   └── page.js
+- │   └── layout.js
+- │
+- ├── components/
+- │
+- ├── context/
+- │
+- ├── lib/
+- │
+- ├── models/
+- │
+- ├── public/
+- │
+- ├── .env
+- │
+- ├── package.json
 
 
 ## API Documentation
@@ -150,9 +150,9 @@ portfolio/
 
 
 ## Author
-**Muhammad Arham**
-**Codiora Software House** 
-**Full Stack Web Development**
-**July 05, 2026**
+**- Muhammad Arham**
+**- Codiora Software House** 
+**- Full Stack Web Development**
+**- July 05, 2026**
 
 
