@@ -124,10 +124,10 @@ http://localhost:3000
 ## Deployment Links
 
 ### Live Application
-**https://personal-portfolio.vercel.app**
+https://personal-portfolio.vercel.app
 
 ### GitHub Repository
-**https://github.com/Arham1033/personal_portfolio**
+https://github.com/Arham1033/personal_portfolio
 
 
 ## Technologies Used
@@ -155,4 +155,5 @@ http://localhost:3000
 - Full Stack Web Development
 - July 05, 2026
 
+## Screenshots
 
