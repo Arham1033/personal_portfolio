@@ -1,4 +1,4 @@
-##Portfolio Management System
+# Portfolio Management System
 **A full-stack portfolio management system built using Next.js, MongoDB, and JWT Authentication.**
 
 ##Features
@@ -148,10 +148,11 @@ portfolio/
 - Context API
 - React Hot Toast**
 
-##Author
-**Muhammad Arham
-Codiora Software House 
-Full Stack Web Development
-July 05, 2026**
+
+## Author
+**Muhammad Arham**
+**Codiora Software House** 
+**Full Stack Web Development**
+**July 05, 2026**
 
 
