@@ -154,6 +154,3 @@ https://github.com/Arham1033/personal_portfolio
 - Codiora Software House
 - Full Stack Web Development
 - July 05, 2026
-
-## Screenshots
-
