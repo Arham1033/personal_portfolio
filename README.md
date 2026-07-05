@@ -1,5 +1,5 @@
-# Portfolio Management System
-**A full-stack portfolio management system built using Next.js, MongoDB, and JWT Authentication.**
+# Personal Portfolio
+**A full-stack portfolio management system built using Next.js, MongoDB Atlas, Cloudinary, and Tailwind CSS.**
 
 ## Features
 - User Authentication
@@ -68,34 +68,34 @@ http://localhost:3000
 
 
 ## Folder Structure
-
-- portfolio/
-- │
-- ├── app/
-- │   ├── about/
-- │   ├── api/
-- │   ├── content/
-- │   ├── login/
-- │   └── preview/
-- │   └── profile/
-- │   └── register/
-- │   └── page.js
-- │   └── layout.js
-- │
-- ├── components/
-- │
-- ├── context/
-- │
-- ├── lib/
-- │
-- ├── models/
-- │
-- ├── public/
-- │
-- ├── .env
-- │
-- ├── package.json
-
+```text
+ portfolio/
+ │
+ ├── app/
+ │   ├── about/
+ │   ├── api/
+ │   ├── content/
+ │   ├── login/
+ │   └── preview/
+ │   └── profile/
+ │   └── register/
+ │   └── page.js
+ │   └── layout.js
+ │
+ ├── components/
+ │
+ ├── context/
+ │
+ ├── lib/
+ │
+ ├── models/
+ │
+ ├── public/
+ │
+ ├── .env
+ │
+ ├── package.json
+```
 
 ## API Documentation
 
@@ -153,6 +153,6 @@ http://localhost:3000
 - Muhammad Arham
 - Codiora Software House
 - Full Stack Web Development
-- July 05, 2026**
+- July 05, 2026
 
 
