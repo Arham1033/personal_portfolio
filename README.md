@@ -1,18 +1,18 @@
 # Portfolio Management System
 **A full-stack portfolio management system built using Next.js, MongoDB, and JWT Authentication.**
 
-##Features
-**User Authentication
-Dashboard
-Add/Edit/Delete Projects
-Contact Management
-Skills Management
-Search
-Filters
-Image Upload
-Profile Management
-Notifications
-Responsive Design**
+## Features
+**-User Authentication
+-Dashboard
+-Add/Edit/Delete Projects
+-Contact Management
+-Skills Management
+-Search
+-Filters
+-Image Upload
+-Profile Management
+-Notifications
+-Responsive Design**
 
 
 ## Installation Guide
@@ -146,7 +146,7 @@ portfolio/
 - GitHub
 - REST API
 - Context API
-- React Hot Toast**
+- React Hot Toast
 
 
 ## Author
