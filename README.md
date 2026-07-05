@@ -67,7 +67,7 @@ http://localhost:3000
 ```
 
 
-##Folder Structure
+## Folder Structure
 
 - portfolio/
 - │
@@ -150,9 +150,9 @@ http://localhost:3000
 
 
 ## Author
-**- Muhammad Arham**
-**- Codiora Software House** 
-**- Full Stack Web Development**
-**- July 05, 2026**
+- Muhammad Arham
+- Codiora Software House
+- Full Stack Web Development
+- July 05, 2026**
 
 
