@@ -3,16 +3,22 @@
 
 ## Features
 - User Authentication
-- Dashboard
-- Add/Edit/Delete Projects
-- Contact Management
-- Skills Management
-- Search
-- Filters
-- Image Upload
+- Dashboard with Statistics
 - Profile Management
-- Notifications
+- About Section Management
+- Project Management (CRUD)
+- Skills Management (CRUD)
+- Category Management
+- Contact Management
+- Notification System
+- Activity Tracking
+- Cloudinary Image Upload & Management
+- Search & Filter Projects
+- Search & Filter Skills
 - Responsive Design
+- Loading Indicators
+- Empty State Handling
+- Toast Notifications
 
 
 ## Installation Guide
@@ -99,26 +105,35 @@ http://localhost:3000
 
 ## API Documentation
 
-| Endpoint            | Method | Description 
-|---------------------|--------|-------------
-| /api/register       | POST   | Register a new user 
-| /api/login          | POST   | Authenticate user 
-| /api/profile        | GET    | Retrieve logged-in user profile 
-| /api/profile        | PUT    | Update user profile 
-| /api/profile/password | PUT  | Change user password 
-| /api/projects       | GET    | Retrieve all projects 
-| /api/projects       | POST   | Add a new project 
-| /api/projects/:id   | PUT    | Update a project 
-| /api/projects/:id   | DELETE | Delete a project 
-| /api/skills         | GET    | Retrieve all skills 
-| /api/skills         | POST   | Add a new skill 
-| /api/skills/:id     | PUT    | Update a skill 
-| /api/skills/:id     | DELETE | Delete a skill 
-| /api/categories     | GET    | Retrieve all categories 
-| /api/categories     | POST   | Add a new category 
-| /api/categories/:id | PUT    | Update a category 
-| /api/categories/:id | DELETE | Delete a category 
-| /api/notifications  | GET    | Retrieve notifications 
+## API Documentation
+
+| Endpoint                 | Method | Description |
+|--------------------------|--------|-------------|
+| /api/register            | POST   | Register a new user |
+| /api/login               | POST   | Authenticate user |
+| /api/user/update         | PUT    | Update user profile and password |
+| /api/user/stats/:id      | GET    | Retrieve user statistics |
+| /api/user/view           | POST   | Increment profile view count |
+| /api/projects            | GET    | Retrieve all projects |
+| /api/projects            | POST   | Add a new project |
+| /api/projects/:id        | PUT    | Update a project |
+| /api/projects/:id        | DELETE | Delete a project |
+| /api/skills              | GET    | Retrieve all skills |
+| /api/skills              | POST   | Add a new skill |
+| /api/skills/:id          | PUT    | Update a skill |
+| /api/skills/:id          | DELETE | Delete a skill |
+| /api/about               | GET    | Retrieve all About sections |
+| /api/about               | POST   | Add a new About section |
+| /api/about/:id           | PUT    | Update an About section |
+| /api/about/:id           | DELETE | Delete an About section |
+| /api/contact             | GET    | Retrieve contact information |
+| /api/contact             | POST   | Update contact information |
+| /api/categories          | GET    | Retrieve all categories |
+| /api/categories          | POST   | Add a new category |
+| /api/categories/:id      | PUT    | Update a category |
+| /api/categories/:id      | DELETE | Delete a category |
+| /api/notifications       | GET    | Retrieve notifications |
+| /api/notifications       | POST   | Create a notification |
 
 
 ## Deployment Links
@@ -132,7 +147,7 @@ https://github.com/Arham1033/personal_portfolio
 
 ## Technologies Used
 
-- Next.js 15
+- Next.js 16.2.7
 - JavaScript (ES6+)
 - MongoDB Atlas
 - Mongoose
@@ -153,4 +168,8 @@ https://github.com/Arham1033/personal_portfolio
 - Muhammad Arham
 - Codiora Software House
 - Full Stack Web Development
-- July 05, 2026
+- July 12, 2026
+
+
+## License
+This project is for educational and portfolio purposes.
