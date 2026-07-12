@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import React from "react";
-import Link from "next/link";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {
@@ -33,7 +32,6 @@ const [projectPreview, setProjectPreview] = useState("");
   const [activities, setActivities] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 const [categories, setCategories] = useState(defaultCategories);
 const [newCategory, setNewCategory] = useState("");
@@ -149,11 +147,7 @@ const handleProjectFile = (e) => {
     setProjects(data);
   }
 
-  async function fetchSkills() {
-  const res = await fetch("/api/skills");
-  const data = await res.json();
-  setskills(data);
-}
+
 
   // Handle submit
  async function handleAddProject() {
@@ -602,14 +596,14 @@ const visibleActivities = activities.slice(
 );
 
 if (loading) {
-  return <div>Loading...</div>;
+  return <div className="text-center py-4">Loading...</div>;
 }
 
   return (
     <>
      <ProtectedRoute>
 
-      <div className="bg-gray-200 min-h-screen flex justify-center pl-8 pr-4">
+      <div className="bg-[#F8FAFC] min-h-screen flex justify-center pl-8 pr-4">
   <div className="flex flex-col justify-center items-center">
 
         <div className="flex flex-col items-center justify-center mt-6 py-2">
@@ -710,7 +704,7 @@ if (loading) {
   placeholder="Search skills..."
   value={skillSearch}
   onChange={(e) => setSkillSearch(e.target.value)}
-  className="border rounded-lg p-2 mb-4 ml-2"
+  className="border rounded-lg p-2 mb-4 ml-2 md:w-100 w-auto"
 />
 
 <select
@@ -763,7 +757,8 @@ if (loading) {
               onClick={() => {
                 openMenu();
               }}
-              className="md:px-4 px-3 py-1 md:py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer"
+              className="md:px-4 px-3 py-1 md:py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer hover:scale-105
+active:scale-95"
             >
               Add Skill
             </button>
@@ -789,6 +784,8 @@ if (loading) {
   <option value="Database">Database</option>
   <option value="Tools">Tools</option>
 </select>
+<div className="flex justify-center items-center gap-2">
+
               <button
                 onClick={() => {
                   addskill();
@@ -797,11 +794,28 @@ if (loading) {
                 className={`md:px-4 px-2 md:py-2 py-1 rounded-lg transition duration-300 ${
                   isDisabled
                   ? "bg-green-500 cursor-not-allowed"
-                  : "bg-green-600 hover:bg-gray-500 cursor-pointer"
+                  : "bg-green-500 hover:bg-green-600 cursor-pointer hover:scale-105 active:scale-95"
                 }`}
                 >
                 Add
               </button>
+
+               <button
+      onClick={() => {
+    setshowInput(false);
+        setinput("");
+        setSkillCategory("Frontend"); // optional: reset category
+      }}
+      className="cursor-pointer hover:scale-110 transition duration-300"
+    >
+      <img
+        src="/back.svg"
+        alt="Cancel"
+        className="w-6 h-6"
+      />
+    </button>
+          </div>
+
             </div>
           )}
         </div>
@@ -845,7 +859,8 @@ Project Categories
     ? updateCategory
     : addCategory
   }
-  className="bg-blue-500 hover:bg-blue-600 text-white md:px-3 px-2 md:py-2 py-1 transition duration-300 cursor-pointer rounded"
+  className="bg-blue-500 hover:bg-blue-600 text-white md:px-3 px-2 md:py-2 py-1 transition duration-300 cursor-pointer rounded hover:scale-105
+active:scale-95"
 >
 
   {editingCategory !== null
@@ -866,7 +881,8 @@ Project Categories
     </span>
 
     <div className="flex gap-2">
-      <button className="hover:cursor-pointer transition duration-300 bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md"
+      <button className="hover:cursor-pointer transition duration-300 bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md hover:scale-105
+active:scale-95"
         onClick={() => {
           setEditingCategory(cat._id);
           setNewCategory(cat.name);
@@ -875,7 +891,8 @@ Project Categories
         Edit
       </button>
 
-      <button className="hover:cursor-pointer transition duration-300 bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md"
+      <button className="hover:cursor-pointer transition duration-300 bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md hover:scale-105
+active:scale-95"
         onClick={() => deleteCategory(cat._id)}
       >
         Delete
@@ -922,7 +939,8 @@ Project Categories
 
 <button
   onClick={() => window.open("/preview", "_blank")}
-  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer transition duration-300"
+  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer transition duration-300 hover:scale-105
+active:scale-95"
 >
   Preview Portfolio
 </button>
@@ -935,7 +953,8 @@ Project Categories
               sortedProjects.map((p) => (
                 <React.Fragment key={p._id}>
 
-                <div className="bg-gray-300 rounded-lg md:p-4 p-2">
+                <div className="bg-gray-300 rounded-lg md:p-4 p-2 hover:scale-105
+active:scale-95 transition duration-300 hover:shadow-2xl">
                   {p.image ? (
                     <img
                     src={p.image}
@@ -972,14 +991,16 @@ Project Categories
                   <div className="flex gap-2 mt-4">
                     <button
                       onClick={() => handleEdit(p)}
-                      className="bg-green-600 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-green-700 transition duration-300"
+                      className="bg-green-600 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-green-700 transition duration-300 hover:scale-105
+active:scale-95"
                       >
                       Update
                     </button>
 
                     <button
                       onClick={() => handleDelete(p._id)}
-                      className="bg-red-500 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-red-600 transition duration-300"
+                      className="bg-red-500 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-red-600 transition duration-300 hover:scale-105
+active:scale-95"
                       >
                       Delete
                     </button>
@@ -988,7 +1009,7 @@ Project Categories
                   </div>
 
            {editingId === p._id && (
-             <div className="bg-gray-200 rounded-md md:p-4 mt-4">
+             <div className="bg-gray-200 rounded-md md:p-4 mt-4 py-2 px-2">
 
     <input
       type="text"
@@ -1085,10 +1106,31 @@ Project Categories
 
     <button
       onClick={handleUpdateProject}
-      className="bg-green-500 text-white px-4 py-2 rounded"
+      className="bg-green-500 text-white px-4 py-2 rounded hover:scale-105
+active:scale-95 transition duration-300 hover:cursor-pointer hover:bg-green-600"
       >
       Update Project
     </button>
+      <img
+    src="/back.svg"
+    alt="Cancel"
+    className="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mt-2"
+    onClick={() => {
+      setEditingId(null);
+      setEditProjectFile(null);
+      setProjectPreview("");
+
+      setEditForm({
+        title: "",
+        link: "",
+        description: "",
+        image: "",
+        category: "Web Developement",
+        featured: false,
+        status: "ongoing",
+      });
+    }}
+  />
   </div>
 )}
        </React.Fragment>
@@ -1103,15 +1145,36 @@ Project Categories
               onClick={() => {
                 setShowForm(!showForm);
               }}
-              className="md:px-4 px-2 font-normal text-black text-md md:py-2 py-1 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer w-auto mx-auto"
+              className="md:px-4 px-2 font-normal text-black text-md md:py-2 py-1 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer w-auto mx-auto hover:scale-105
+active:scale-95"
               >
               Add Project
             </button>
-
           </div>
 
 {showForm && (
   <div className="bg-gray-200 rounded-lg p-4 mt-4">
+    <img
+       src="/back.svg"
+       alt="Cancel"
+       className="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mb-2"
+       onClick={() => {
+         setShowForm(false);
+   
+         setProjectFile(null);
+         setProjectPreview("");
+   
+         setAddForm({
+           title: "",
+           link: "",
+           description: "",
+           image: "",
+           category: "Web Developement",
+           featured: false,
+           status: "ongoing",
+         });
+       }}
+     />
 
     <input
       type="text"

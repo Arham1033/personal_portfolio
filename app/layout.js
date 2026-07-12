@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import Layout from "@/components/layout";
 import { ActivityProvider } from "@/context/ActivityContext";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +35,12 @@ export default function RootLayout({ children }) {
        
         
           <ActivityProvider>
+<SmoothScroll>
         <Layout>
           {children}
           </Layout>
+</SmoothScroll>
+
           </ActivityProvider>
 
         <Toaster

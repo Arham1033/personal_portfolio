@@ -11,10 +11,10 @@ const Footer = () => {
 
         <p>Connect with me:</p>
         <div className="flex justify-center gap-2 ">
-          <a href="https://github.com/arham1033" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition duration-300 bg-gray-700 md:px-4 md:py-2 px-2 py-1 rounded hover:bg-gray-800 font-semibold">
+          <a href="https://github.com/arham1033" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white hover:scale-105 transition duration-300 bg-gray-700 md:px-4 md:py-2 px-2 py-1 rounded hover:bg-gray-800 font-semibold">
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/muhammad-arham-51a63a3aa/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition duration-300 bg-gray-700 px-2 md:px-4 py-1 md:py-2 rounded hover:bg-gray-800 font-semibold">
+          <a href="https://www.linkedin.com/in/muhammad-arham-51a63a3aa/" target="_blank" rel="noopener noreferrer" className="text-gray-300 active:scale-95 hover:text-white hover:scale-105 transition duration-300 bg-gray-700 px-2 md:px-4 py-1 md:py-2 rounded hover:bg-gray-800 font-semibold">
             LinkedIn
           </a>
         </div>

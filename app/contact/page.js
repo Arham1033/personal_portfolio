@@ -31,7 +31,7 @@ async function fetchContact() {
 if (loading) {
   return (
     <ProtectedRoute>
-      <div>Loading...</div>
+      <div className="text-center">Loading...</div>
     </ProtectedRoute>
   );
 }

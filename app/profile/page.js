@@ -18,6 +18,7 @@ export default function Profile() {
     oldPassword: "",
     newPassword: "",
   });
+  
 
   const [form, setForm] = useState({
     name: "",
@@ -94,7 +95,21 @@ useEffect(() => {
   }
 }, [user]);
 
+ 
+
   async function handleUpdate() {
+      const noChanges =
+    form.name === user.name &&
+    form.email === user.email &&
+    form.profileImage === user.profileImage &&
+    passwords.oldPassword.trim() === "" &&
+    passwords.newPassword.trim() === "";
+
+  if (noChanges) {
+    toast("No changes made");
+    setEditMode(false);
+    return;
+  }
     try {
       const res = await fetch("/api/user/update", {
         method: "PUT",
@@ -145,6 +160,7 @@ useEffect(() => {
 
         {!editMode ? (
           <>
+          
             <h2 className="md:text-xl text-lg text-center font-bold mt-3">{user.name}</h2>
             <p className="text-gray-600 md:text-lg text-sm pl-8">{user.email}</p>
 
@@ -189,13 +205,44 @@ useEffect(() => {
             </div>
             <button
               onClick={() => setEditMode(true)}
-              className="mt-4 bg-blue-500 cursor-pointer hover:bg-blue-600 text-white md:px-3 px-2 py-1 rounded-md transition duration-300 mx-10"
+              className="mt-4 bg-blue-500 cursor-pointer hover:bg-blue-600 text-white md:px-3 px-2 py-1 rounded-md transition duration-300 mx-10 hover:scale-105
+active:scale-95"
             >
               Edit Profile
             </button>
           </>
         ) : (
           <div className="mt-3 flex flex-col gap-2 w-50 ml-10">
+<div className="flex items-center gap-2 mb-4">
+  <button
+    onClick={() => {
+      setEditMode(false);
+      setPreview("");
+      setFile(null);
+      setPasswords({
+        oldPassword: "",
+        newPassword: "",
+      });
+
+      // Restore original values
+      setForm({
+        name: user.name,
+        email: user.email,
+        profileImage: user.profileImage,
+      });
+    }}
+    className="cursor-pointer hover:scale-110 transition duration-300"
+  >
+    <Image
+      src="/back.svg"
+      alt="Back"
+      width={24}
+      height={24}
+    />
+  </button>
+
+  <h2 className="font-bold text-xl">Edit Profile</h2>
+</div>
             <input
               value={form.name}
               onChange={(e) =>
@@ -204,7 +251,6 @@ useEffect(() => {
               className="border p-2 rounded-md"
               placeholder="Name"
             />
-
             <input
               value={form.email}
               onChange={(e) =>
@@ -278,7 +324,7 @@ useEffect(() => {
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-2 top-2 cursor-pointer"
+                className="absolute right-2 top-2 cursor-pointer "
                 >
                 <Image
                   src={showNewPassword ? "/eye-show.svg" : "/eye-off.svg"}
@@ -291,7 +337,8 @@ useEffect(() => {
 
             <button
               onClick={handleUpdate}
-              className="bg-green-500 text-white transition duration-300 cursor-pointer hover:bg-green-600 px-3 py-1 rounded"
+              className="hover:scale-105
+active:scale-95 bg-green-500 text-white transition duration-300 cursor-pointer hover:bg-green-600 px-3 py-1 rounded"
               >
               Save
             </button>

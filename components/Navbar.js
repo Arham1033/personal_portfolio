@@ -160,7 +160,7 @@ const unreadCount = notifications.filter(
                  <div className="flex items-center justify-between md:mx-10 mx-0"> 
                     <Link
                     href="/"
-                    className="md:text-2xl text-lg font-bold text-gray-300 hover:text-white transition duration-300"
+                    className="md:text-2xl text-lg font-bold text-gray-300 hover:text-white transition duration-300 hover:scale-105 active:scale-95"
                     >
                      <Image src="/information.svg" alt="Logo" width={30} height={30} className="inline-block md:mr-2 mr-1 md:w-9" />   
                     <span className='md:text-2xl text-lg'>
@@ -171,8 +171,8 @@ const unreadCount = notifications.filter(
                 <div className="Links flex md:flex-row flex-col md:gap-2 gap-1">
                     <div className='flex gap-1'>
 
-                    <Link href="/about" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">About</Link>
-                    <Link href="/contact" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300">Contact</Link>
+                    <Link href="/about" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95">About</Link>
+                    <Link href="/contact" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95">Contact</Link>
                     </div>
 
 {user ? (
@@ -249,7 +249,8 @@ onClick={async () => {
 
     <button
       onClick={handleLogout}
-      className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded cursor-pointer transition duration-300 hover:bg-gray-800"
+      className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded cursor-pointer transition duration-300 hover:bg-gray-800 hover:scale-105
+active:scale-95"
       >
       Logout
     </button>
@@ -276,14 +277,14 @@ onClick={async () => {
       <div className="dropdown-content">
           <Link
   href="/register"
-  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300"
+  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95"
 >
   Register
 </Link>
 
 <Link
   href="/login"
-  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300"
+  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95"
 >
   Login
 </Link>

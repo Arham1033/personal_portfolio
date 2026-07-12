@@ -17,12 +17,12 @@ const router = useRouter();
   return (
     <aside className={`z-10 sidebar ${isOpen ? "open" : ""} flex justify-between`}>
       <ul className="font-semibold md:text-lg">
-        <li className="md:mt-3 mt-6"><Link href="/profile">Profile</Link></li>
-        <li className="my-4"><Link href="/about">About</Link></li>
-        <li><Link href="/contact">Contact</Link></li>
+        <li className="transition duration-300 hover:scale-105 md:mt-3 mt-6"><Link href="/profile">Profile</Link></li>
+        <li className="transition duration-300 hover:scale-105 my-4"><Link href="/about">About</Link></li>
+        <li className="transition duration-300 hover:scale-105"><Link href="/contact">Contact</Link></li>
         <button
       onClick={handleLogout}
-      className="my-4 cursor-pointer"
+      className="transition duration-300 my-4 hover:scale-105 cursor-pointer"
       >
       Logout
     </button>
