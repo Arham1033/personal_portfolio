@@ -72,6 +72,16 @@ Visit:
 http://localhost:3000
 ```
 
+## Database Design
+```text
+abouts
+categories
+contacts
+notifications
+projects
+skills
+users
+```
 
 ## Folder Structure
 ```text
