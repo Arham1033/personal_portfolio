@@ -32,7 +32,7 @@ async function fetchContact() {
 if (loading) {
   return (
     <ProtectedRoute>
-     <div className="flex min-h-screen items-center justify-center bg-[#030712] text-white ml-10 z-10 relative overflow-hidden px-2 py-1">
+     <div className="flex min-h-screen items-center justify-center bg-[#030712] text-white pl-10 z-10 relative overflow-hidden px-2 py-10">
       <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/80 blur-[140px] " />
 
 <div className="absolute bottom-[10] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-cyan-500/80 blur-[180px]" />

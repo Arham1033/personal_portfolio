@@ -612,7 +612,7 @@ text-white
 flex
 justify-center
 px-2
-md:px-8 xl:ml-0 md:ml-10 ml-10
+md:px-8 xl:pl-0 md:pl-10 pl-10
 ">
     <div className="absolute -top-40 -left-32 h-112.5 w-112.5 rounded-full bg-indigo-500/80 blur-[140px]" />
 
@@ -623,16 +623,7 @@ md:px-8 xl:ml-0 md:ml-10 ml-10
 <div className="absolute bottom-0 left-1/2 h-112.5 w-112.5 -translate-x-1/2 rounded-full bg-purple-500/80 blur-[180px]" />
 
   <div
-className="
-relative
-z-10
-w-full
-max-w-7xl
-md:py-7
-py-4
-flex
-flex-col
-items-center
+className="relative z-10 w-full max-w-7xl md:py-7 py-4 flex flex-col items-center
 "
 >
 
@@ -1512,7 +1503,7 @@ group-hover:scale-105
                       (Link)
                     </a>
                   ) : (
-                    <span className="text-gray-500 ">(Invalid link)</span>
+                    <span className="text-slate-300 ">(Invalid link)</span>
                   )}
                <div className=" text-slate-300 leading-7">
 {p.description}

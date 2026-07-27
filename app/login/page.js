@@ -47,26 +47,13 @@ toast.success("Login successfully")
 };
 
   return (
-    <div className="flex flex-col gap-4  min-h-screen bg-[#030712]">
+    <div className="flex flex-col gap-4  min-h-screen bg-[#030712] sm:pl-0 pl-10">
 
          <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 rounded-full bg-cyan-500/80 blur-[140px] " />
 
 <div className="absolute bottom-[200] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-indigo-500/80 blur-[180px]" />
 
-       <div className="shadow-xl md:p-8 p-2 max-w-md mx-auto w-50 md:w-100 md:mt-20 mt-5 group
-rounded-2xl
-border
-border-white/10
-bg-white/5
-bg-linear-to-br
-from-indigo-500/10
-to-cyan-400/10
-backdrop-blur-xl
-transition-all
-duration-300
-hover:-translate-y-2
-hover:border-cyan-400
-hover:shadow-[0_0_35px_rgba(34,211,238,.25)]">
+       <div className="shadow-xl md:p-8 p-2 max-w-md mx-auto w-50 md:w-100 md:mt-20 mt-5 group rounded-2xl border border-white/10 bg-white/5 bg-linear-to-br from-indigo-500/10 to-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400 hover:shadow-[0_0_35px_rgba(34,211,238,.25)]">
 
 <h1 className="md:text-3xl text-xl font-bold text-center text-white mb-2">
   Welcome Back
