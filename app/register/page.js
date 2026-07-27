@@ -82,6 +82,16 @@ hover:-translate-y-2
 hover:border-cyan-400
 hover:shadow-[0_0_35px_rgba(34,211,238,.25)]">
 
+
+<h1 className="md:text-3xl text-xl font-bold text-center text-white mb-2">
+ Register
+</h1>
+
+<p className="text-slate-300 text-center md:mb-8 mb-4">
+  Sign up to manage your portfolio.
+</p>
+
+
   <div className="flex flex-col md:gap-4 gap-2">
       <input
         type="text"
