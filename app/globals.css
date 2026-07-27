@@ -5,21 +5,17 @@
             display: inline-block;
         }
         .dropbtn {
-            background-color: #364153;
             color: white;
             border-radius: 5px;
             padding: 10px 20px;
             font-size: 16px;
-            border: none;
             cursor: pointer;
             min-width: 140px;
         }
         .dropdown-content {
             position: absolute;
             border-radius: 5px;
-            background-color: #364153;
             min-width: 160px; 
-            border: 1px solid gray;
             z-index: 1;
         }
         .dropdown:hover .dropdown-content {
@@ -31,16 +27,17 @@
             padding: 10px;
             cursor: pointer;
         }
-        .dropdown-content div:hover {
-            background-color: #1e2939;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-        }
 
        
         
         .layout {
   display: flex;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.8) inset !important;
+  -webkit-text-fill-color: white !important;
 }
 
 /* Sidebar fixed under navbar */
@@ -49,11 +46,10 @@
   top: 60px; /* height of navbar */
   left: -170px;
   width: 250px;
-  height: calc(100vh - 60px); /* footer + navbar safe */
-  background: #222;
-  color: white;
+  height: calc(100vh - 60px);
   padding-left: 20px;
   padding-top: 20px;
+  color: white;
   padding-right: 20px;
   transition: left 0.3s ease;
 }
@@ -68,6 +64,31 @@
   width: 100%;
 } 
 
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a; /* Dark background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a5b4fc; /* Light Indigo */
+  border-radius: 999px;
+  border: 2px solid #0f172a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #a5b4fc #0f172a;
+}
+
 @media (max-width: 768px) {
   .dropdown-content {
     min-width: 140px;
@@ -81,8 +102,10 @@
     padding-bottom: 4px;
   }
   .sidebar{
-    left: -170px;
+    left: -130px;
     padding-right: 8px;
-    width: 200px;
+    width: 170px;
+     padding-left: 10px;
   }
 }
+

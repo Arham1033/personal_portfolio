@@ -36,30 +36,64 @@ useEffect(() => {
   return (
     <ProtectedRoute>
 
-    <div className="min-h-screen bg-gray-200 pt-3 items-center md:py-2 md:px-10 pl-5">
-      <div className='mx-auto xl:w-200 sm:w-100 w-45'>
+    <div className="min-h-screen md:pt-3 pt-2 items-center md:py-2 md:px-10 pl-5 relative
+overflow-hidden
+bg-[#030712]
+text-white
+px-4
+">
+
+
+   <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/80 blur-[140px] " />
+
+<div className="absolute bottom-[200] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-cyan-500/80 blur-[180px]" />
+
+
+      <div className="relative z-10 mx-auto xl:w-200 sm:w-100 w-45 px-2 md:py-4 py-2">
+        <div className="mb-5 text-center">
+  <h1 className="text-2xl md:text-5xl font-bold">
+    About <span className="bg-linear-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">Me</span>
+  </h1>
+
+  <p className="md:mt-4 mt-2 text-slate-300 max-w-2xl mx-auto">
+    Learn more about my journey, experience, skills, and the projects I've built.
+  </p>
+</div>
 
 {aboutSections.length === 0 ? (
   <>
-  <div className="text-gray-600 mt-6 font-semibold">
+  <div className="text-slate-400 mt-6 font-semibold text-center">
     No information added yet. Add something about yourself.
   </div>
   </>
 ) : (
   aboutSections.map((item) => (
-    <div key={item._id} className="mt-4">
+    <div
+  key={item._id}
+  className="group mt-3 rounded-2xl border border-slate-300/30 shadow-xl  hover:border-indigo-400/40 hover:-translate-y-1 hover:shadow-indigo-500/10 group
+  md:w-auto w-50
+items-center
+bg-white/5
+bg-linear-to-br
+from-indigo-500/20
+to-cyan-400/10
+backdrop-blur-xl
+md:p-6 p-2
+transition-all
+duration-300
+hover:shadow-[0_10px_35px_rgba(34,211,238,0.25)]"
+>
 
-
-    <h2 className="md:text-xl text-lg font-semibold">
+    <h2 className="text-lg md:text-2xl font-bold text-white">
       {item.title}
     </h2>
 
-    <p className="text-gray-600 md:text-lg">
+    <p className="text-slate-300 leading-8 md:text-lg">
       {item.content}
     </p>
   
 
-    <div className="flex gap-2 mt-2">
+   <div className="mt-3 flex flex-wrap gap-2">
 
       <button
         onClick={ async () => {
@@ -71,7 +105,7 @@ useEffect(() => {
   });
 
         }}
-        className="bg-blue-500 text-white px-2 py-1 rounded-md transition duration-300 cursor-pointer hover:bg-blue-600 hover:scale-105 active:scale-95"
+        className="rounded-xl border border-blue-400/20 bg-blue-500/80 px-2 md:px-4 py-2 text-slate-200 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:scale-105 cursor-pointer"
       >
         Edit
       </button>
@@ -102,7 +136,7 @@ useEffect(() => {
 
     fetchAbout();
   }}
-  className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition duration-300 cursor-pointer hover:scale-105 active:scale-95"
+className="rounded-xl border border-red-400/20 bg-red-500/80 px-2 md:px-4 py-2 text-slate-200 transition-all duration-300 hover:bg-red-500 hover:text-white hover:scale-105 cursor-pointer"
 >
   Delete
 </button>
@@ -110,10 +144,22 @@ useEffect(() => {
 
     </div>
     {editId === item._id && (
-      <div className="mt-4 bg-gray-300 p-4 rounded-md">
+      <div className="mt-4 rounded-2xl border border-slate-300/40 backdrop-blur-xl md:w-full mb-2 p-2
+bg-white/5
+transition duration-300 cursor-pointer
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]">
     
     <input
-    className="w-full md:p-2 p-1 mb-2 border rounded-md font-semibold text-lg"
+    className="w-full md:p-2 p-1 mb-2 rounded-xl border border-white/10 text-white  focus:outline-none px-2 md:px-4 md:py-3 py-2 font-semibold text-lg
+bg-white/5
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition"
     placeholder="Topic (e.g. Education)"
     value={form.title}
     onChange={(e) =>
@@ -125,7 +171,14 @@ useEffect(() => {
     
     
     <textarea
-    className="w-full md:p-2 p-1 mb-2 border rounded-md text-lg"
+    className="w-full md:p-2 p-1 mb-2 bordertext-lg rounded-xl border border-white/10 text-white  focus:outline-none px-4 py-3
+bg-white/5
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition"
     placeholder="Information"
     value={form.content}
     onChange={(e) =>
@@ -133,10 +186,12 @@ useEffect(() => {
     }
     />
     
-    <button className='bg-green-500 px-2 py-1 hover:cursor-pointer transition duration-300 rounded-md hover:bg-green-600 hover:scale-105
-    active:scale-95'
+    <div className='flex gap-2'>
+
+    <button className='bg-green-500 px-2 py-1 hover:cursor-pointer transition duration-300 rounded-md font-semibold hover:bg-green-600 hover:scale-105
+    active:scale-95 text-black'
     onClick={async () => {
-    if (!form.title.trim() || !form.content.trim()) {
+      if (!form.title.trim() || !form.content.trim()) {
      toast.error("Title and content cannot be empty");
      return;
     }
@@ -151,7 +206,7 @@ useEffect(() => {
     });
     
     toast.success("Section updated");
-    } else {
+  } else {
     await fetch("/api/about", {
       method: "POST",
       headers: {
@@ -161,35 +216,36 @@ useEffect(() => {
     });
     
     toast.success("Section added");
-    }
-    
-    fetchAbout();
-    
-    setForm({
-      title: "",
-      content: "",
-    });
-    
-    setEditId(null);
-    setShowAddForm(false);
-    }}
-    >
+  }
+  
+  fetchAbout();
+  
+  setForm({
+    title: "",
+    content: "",
+  });
+  
+  setEditId(null);
+  setShowAddForm(false);
+}}
+>
     Save
     </button>
 
     <button
     onClick={() => {
       setEditId(null);
-
+      
       setForm({
         title: "",
         content: "",
       });
     }}
-    className="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600 ml-2 transition duration-300 cursor-pointer hover:scale-105 active:scale-95"
-  >
+    className="bg-gray-500/60 px-2 md:px-3 py-1 rounded-md hover:bg-gray-500 ml-2 transition duration-300 cursor-pointer hover:scale-105 active:scale-95 font-semibold text-black"
+    >
     Cancel
   </button>
+    </div>
     </div>
     )}
     
@@ -199,10 +255,22 @@ useEffect(() => {
 
 {showAddForm && (
   
-    <div className="mt-4 bg-gray-300 p-4 rounded-md">
+    <div className="mt-4 p-4 rounded-2xl border border-slate-300/40 backdrop-blur-xl md:w-full w-50 mb-2
+bg-white/5
+transition duration-300 cursor-pointer
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]">
   
   <input
-  className="w-full md:p-2 p-1 mb-2 border rounded-md font-semibold text-lg"
+  className="w-full md:p-2 p-1 mb-2 font-semibold text-lg bordertext-lg rounded-xl border border-white/10 text-white  focus:outline-none px-4 py-3
+bg-white/5
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition"
   placeholder="Topic (e.g. Education)"
   value={form.title}
   onChange={(e) =>
@@ -214,7 +282,14 @@ useEffect(() => {
   
   
   <textarea
-  className="w-full md:p-2 p-1 mb-2 border rounded-md text-lg"
+  className="w-full md:p-2 p-1 mb-2 border text-lg bordertext-lg rounded-xl border-white/10 text-white  focus:outline-none px-4 py-3
+bg-white/5
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition"
   placeholder="Information"
   value={form.content}
   onChange={(e) =>
@@ -223,7 +298,7 @@ useEffect(() => {
   />
   
   <button className='bg-green-500 px-2 py-1 hover:cursor-pointer transition duration-300 rounded-md hover:bg-green-600 hover:scale-105
-  active:scale-95'
+  active:scale-95 text-black font-semibold'
   onClick={async () => {
   if (!form.title.trim() || !form.content.trim()) {
    toast.error("Title and content cannot be empty");
@@ -275,7 +350,7 @@ useEffect(() => {
         content: "",
       });
     }}
-    className="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600 transition duration-300 cursor-pointer hover:scale-105 ml-2 active:scale-95"
+    className="bg-gray-500/60 px-3 py-1 rounded-md hover:bg-gray-500 transition duration-300 cursor-pointer hover:scale-105 ml-2 active:scale-95 text-black font-semibold"
   >
     Cancel
   </button>
@@ -293,7 +368,7 @@ onClick={() => {
   });
   setShowAddForm(true);
 }}
-className="bg-green-500 px-3 mt-4 py-2 rounded-md hover:bg-green-600 transition duration-300 cursor-pointer text-black hover:scale-105 active:scale-95 mb-3"
+className="bg-green-500 hover:bg-green-600 transition duration-300 cursor-pointer hover:scale-105 mb-3 mt-4 rounded-2xl bg-linear-to-r from-indigo-500 to-cyan-500 px-4 md:px-6 py-2 md:py-3 font-semibold text-white shadow-lg hover:shadow-cyan-500/30 active:scale-95"
 >
   Add Section
 </button>

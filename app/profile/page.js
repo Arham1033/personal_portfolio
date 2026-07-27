@@ -143,77 +143,95 @@ useEffect(() => {
     }
   }
 
-  if (!user) return <div className="min-h-screen text-center flex items-center justify-center font-bold text-2xl">Not logged in</div>;
+  if (!user) return <div className="min-h-screen text-center flex items-center justify-center font-bold text-2xl text-slate-300">Not logged in</div>;
 
   return (
     <ProtectedRoute>
 
-    <div className="min-h-screen flex justify-center p-10 md:w-100 w-50 mx-auto">
-      <div className="bg-white rounded-lg w-80">
+    <div className="relative min-h-screen overflow-hidden bg-[#030712] text-white flex items-center justify-center md:px-4 px-4 py-4 md:py-10">
+  {/* Background glow */}
+   <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/40 blur-[140px] " />
 
-        <div className="relative md:h-40 md:w-40 w-30 h-30 rounded-full overflow-hidden mx-auto ">
-          <img
-            src={preview || form.profileImage || "/default-avatar.jpg"}
-            className="md:w-full md:h-full w-50 h-50 object-cover"
-            />
-        </div>
+<div className="absolute bottom-[5] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-cyan-500/40 blur-[180px]" />
+
+<div className="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-4 md:p-6 backdrop-blur-xl shadow-[0_0_40px_rgba(99,102,241,0.25)] transition duration-300 hover:shadow-[0_0_60px_rgba(34,211,238,0.35)] md:ml-0 ml-10">
+
+<div className="relative mx-auto h-32 w-32 md:h-40 md:w-40">
+  <div className="absolute inset-0 rounded-full bg-linear-to-r from-cyan-400 to-indigo-500 p-0.75">
+    <div className="h-full w-full rounded-full overflow-hidden bg-[#0b1220]">
+      <img
+        src={preview || form.profileImage || "/default-avatar.jpg"}
+        className="h-full w-full object-cover"
+      />
+    </div>
+  </div>
+</div>
 
         {!editMode ? (
           <>
           
-            <h2 className="md:text-xl text-lg text-center font-bold mt-3">{user.name}</h2>
-            <p className="text-gray-600 md:text-lg text-sm pl-8">{user.email}</p>
+          <div className="text-center mt-2 md:mt-5">
+  <h2 className="md:text-2xl text-xl font-bold tracking-tight">{user.name}</h2>
+  <p className="md:text-[16px] text-sm text-slate-300 mt-1 wrap-break-word">{user.email}</p>
+</div>
 
 
-            <div className="pl-8 mt-3 text-sm text-gray-700">
-            <p>
-  <strong>Login Count:</strong> {stats?.loginCount ?? 0}
-</p>
 
-<p>
-  <strong>Profile Views:</strong> {stats?.profileViews ?? 0}
-</p>
+<div className="grid grid-cols-2 md:gap-3 gap-2 md:mt-6 mt-4">
+  <div className="rounded-xl border border-white/10 bg-white/5 md:p-3 p-2 duration-300 transition hover:border-cyan-500/60">
+    <p className="text-xs text-slate-300 mb-1">Logins</p>
+    <p className="md:text-xl font-semibold">{stats?.loginCount ?? 0}</p>
+  </div>
 
-<p>
-  <strong>Account Created:</strong>{" "}
+  <div className="rounded-xl border border-white/10 bg-white/5 md:p-3 p-2 duration-300 transition hover:border-cyan-500/60">
+    <p className="text-xs text-slate-300 mb-1">Profile Views</p>
+    <p className="md:text-xl font-semibold">{stats?.profileViews ?? 0}</p>
+  </div>
+
+  <div className="rounded-xl border border-white/10 bg-white/5 md:p-3 p-2 duration-300 transition hover:border-cyan-500/60">
+    <p className="text-xs text-slate-300 mb-1">Account Created</p>
+    <p className="md:text-xl text-sm font-semibold">{" "}
   {stats?.createdAt
     ? new Date(stats.createdAt).toLocaleDateString()
-    : "N/A"}
-</p>
+    : "N/A"}</p>
+  </div>
 
-<p>
-  <strong>Last Login:</strong>{" "}
+  <div className="rounded-xl border border-white/10 bg-white/5 md:p-3 p-2 duration-300 transition hover:border-cyan-500/60">
+    <p className="text-xs text-slate-300 mb-1">Last Login</p>
+    <p className="md:text-lg text-xs font-semibold">{" "}
   {stats?.lastLogin
     ? new Date(stats.lastLogin).toLocaleString()
-    : "Never"}
-</p>
+    : "Never"}</p>
+  </div>
+</div>
 
-            </div>
 
 
-            <div className="flex items-center gap-2 pl-8 text-gray-700">
-              <span>Password: ••••••••••</span>
 
-              <button className="cursor-pointer" onClick={() => setEditMode(true)}>
-                <Image
-                  src="/pencil.svg"
-                  alt="change password"
-                  width={20}
-                  height={20}
-                  />
-              </button>
-            </div>
-            <button
-              onClick={() => setEditMode(true)}
-              className="mt-4 bg-blue-500 cursor-pointer hover:bg-blue-600 text-white md:px-3 px-2 py-1 rounded-md transition duration-300 mx-10 hover:scale-105
-active:scale-95"
-            >
-              Edit Profile
-            </button>
+          <div className="md:mt-6 mt-3 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 md:px-4 px-2 md:py-3 py-2 transition duration-300 hover:border-cyan-500/60">
+  <div>
+    <p className="text-slate-300">Password</p>
+    <p className="text-sm tracking-[0.3em]">••••••••••</p>
+  </div>
+
+  <button
+    className="rounded-lg border border-black p-2 invert cursor-pointer hover:bg-linear-to-br from-yellow-500/80 to-red-500/80 transition duration-300"
+    onClick={() => setEditMode(true)}
+  >
+    <Image src="/pencil.svg" alt="edit" width={18} height={18} />
+  </button>
+</div>
+
+   <button
+  onClick={() => setEditMode(true)}
+  className="md:mt-6 mt-3 w-full rounded-xl bg-linear-to-r from-indigo-500 to-cyan-500 py-3 font-semibold text-white transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(34,211,238,0.45)] active:scale-95 cursor-pointer"
+>
+  Edit Profile
+</button>
           </>
         ) : (
-          <div className="mt-3 flex flex-col gap-2 w-50 ml-10">
-<div className="flex items-center gap-2 mb-4">
+          <div className="mt-3 flex flex-col gap-2 w-full">
+<div className="flex items-center mb-1 gap-2 md:mb-4">
   <button
     onClick={() => {
       setEditMode(false);
@@ -231,7 +249,7 @@ active:scale-95"
         profileImage: user.profileImage,
       });
     }}
-    className="cursor-pointer hover:scale-110 transition duration-300"
+    className="cursor-pointer hover:scale-110 transition duration-300 invert"
   >
     <Image
       src="/back.svg"
@@ -241,14 +259,14 @@ active:scale-95"
     />
   </button>
 
-  <h2 className="font-bold text-xl">Edit Profile</h2>
+  <h2 className="font-bold text-xl text-center">Edit Profile</h2>
 </div>
             <input
               value={form.name}
               onChange={(e) =>
                 setForm({ ...form, name: e.target.value })
               }
-              className="border p-2 rounded-md"
+              className="w-full rounded-xl border border-white/10 bg-white/5 py-2 px-4 md:py-3 text-white placeholder:text-slate-300 outline-none transition duration-300 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Name"
             />
             <input
@@ -256,14 +274,21 @@ active:scale-95"
               onChange={(e) =>
                 setForm({ ...form, email: e.target.value })
               }
-              className="border p-2 rounded-md"
+            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 md:py-3 text-white placeholder:text-slate-300 outline-none transition duration-300 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Email"
             />
 
 
             <div className="flex items-center gap-3">
 
-              <label className="cursor-pointer bg-gray-500 text-white md:px-4 md:py-2 py-1 px-2 rounded">
+              <label className="cursor-pointer bg-gray-500 text-white md:px-4 md:py-2 py-1 px-2
+rounded-lg
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+transition-all
+duration-300
+hover:shadow-[0_0_25px_rgba(99,102,241,.4)]">
                 Choose file (optional)
 
                 <input
@@ -274,7 +299,7 @@ active:scale-95"
                 />
               </label>
 
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-slate-300">
                 {file ? file.name : "No file selected"}
               </span>
 
@@ -290,19 +315,20 @@ active:scale-95"
                     oldPassword: e.target.value,
                   })
                 }
-                className="border p-2 rounded-md w-full"
+                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 md:py-3 text-white placeholder:text-slate-300 outline-none transition duration-300 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 />
 
               <button
                 type="button"
                 onClick={() => setShowOldPassword(!showOldPassword)}
-                className="absolute right-2 top-2 cursor-pointer"
+                className="absolute right-2 top-2 md:top-3 cursor-pointer invert rounded-full bg-linear-to-br from-red-500/90 to-yellow-500/90 p-1 hover:scale-95 duration-300 transition"
               >
                 <Image
                   src={showOldPassword ? "/eye-show.svg" : "/eye-off.svg"}
                   alt="Toggle password"
                   width={20}
                   height={20}
+                  className=""
                 />
               </button>
             </div>
@@ -318,13 +344,13 @@ active:scale-95"
                     newPassword: e.target.value,
                   })
                 }
-                className="border p-2 rounded-md w-full"
+                   className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 md:py-3 text-white placeholder:text-slate-300 outline-none transition duration-300 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 />
 
               <button
                 type="button"
                 onClick={() => setShowNewPassword(!showNewPassword)}
-                className="absolute right-2 top-2 cursor-pointer "
+                className="absolute right-2 top-2 md:top-3 cursor-pointer invert rounded-full bg-linear-to-br from-red-500/90 to-yellow-500/90 p-1 hover:scale-95 duration-300 transition"
                 >
                 <Image
                   src={showNewPassword ? "/eye-show.svg" : "/eye-off.svg"}
@@ -337,8 +363,7 @@ active:scale-95"
 
             <button
               onClick={handleUpdate}
-              className="hover:scale-105
-active:scale-95 bg-green-500 text-white transition duration-300 cursor-pointer hover:bg-green-600 px-3 py-1 rounded"
+           className="w-full rounded-xl bg-green-500 py-3 font-semibold transition duration-300 hover:bg-green-400 hover:scale-[1.02] active:scale-95 cursor-pointer mt-2 md:mt-6 bg-linear-to-r from-indigo-500 to-cyan-500 text-white hover:shadow-[0_0_25px_rgba(34,211,238,0.45)]"
               >
               Save
             </button>

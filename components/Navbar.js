@@ -88,10 +88,21 @@ useEffect(() => {
 const fetchNotifications = async () => {
   try {
     const res = await fetch("/api/notifications");
+
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
     const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Expected an array");
+    }
+
     setNotifications(data);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
+    setNotifications([]);
   }
 };
 
@@ -150,37 +161,40 @@ const deleteNotification = async (id) => {
 
 
 
-const unreadCount = notifications.filter(
-  (notification) => !notification.read
-).length;
+const unreadCount = Array.isArray(notifications)
+  ? notifications.filter((notification) => !notification.read).length
+  : 0;
 
   return (
     <div className="sticky top-0 z-50">
-        <nav className="bg-gray-600 text-white md:p-4 p-2">  
-                 <div className="flex items-center justify-between md:mx-10 mx-0"> 
+       <nav className="backdrop-blur-xl bg-indigo-900/80 border-b border-white/10 text-white md:px-8 px-2 md:py-3 py-2 shadow-xl">
+             <div className="max-w-7xl mx-auto flex items-center justify-between">
+
                     <Link
+           
                     href="/"
-                    className="md:text-2xl text-lg font-bold text-gray-300 hover:text-white transition duration-300 hover:scale-105 active:scale-95"
+                    className="flex items-center justify-center gap-2 text-lg md:text-2xl font-bold tracking-wide hover:opacity-90 transition-all duration-300"
                     >
-                     <Image src="/information.svg" alt="Logo" width={30} height={30} className="inline-block md:mr-2 mr-1 md:w-9" />   
-                    <span className='md:text-2xl text-lg'>
+                     <Image src="/favicon.ico" alt="Logo" width={30} height={30} className="w-8 md:w-9 md:inline hidden" />   
+                    <span className="bg-linear-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent hover:scale-105 transition duration-300 hover:shadow-[0_0_30px_rgba(99,102,241,.45)]">
                       My Portfolio
                       </span>
                     </Link>
+                
 
-                <div className="Links flex md:flex-row flex-col md:gap-2 gap-1">
-                    <div className='flex gap-1'>
+                <div className="Links flex md:flex-row flex-col md:gap-3 gap-1">
+                    <div className='flex md:gap-2 gap-1'>
 
-                    <Link href="/about" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95">About</Link>
-                    <Link href="/contact" className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95">Contact</Link>
+                    <Link href="/about" className="md:px-4 px-2 md:py-2 py-1 bg-purple-500/20 rounded-xl transition duration-300 hover:scale-105 active:scale-95 text-gray-200 hover:text-white border border-slate-300 hover:bg-indigo-500/50 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600">About</Link>
+                    <Link href="/contact" className="md:px-4 px-2 md:py-2 py-1  rounded-xl transition duration-300 hover:scale-105 active:scale-95 text-gray-200 hover:text-white border border-slate-300 hover:bg-indigo-500/50 bg-purple-500/20 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600">Contact</Link>
                     </div>
 
 {user ? (
   <>
-  <div className='flex gap-1 relative items-center'>
+  <div className='flex md:gap-2 gap-1 relative items-center'>
 
     <div ref={notificationRef}
-  className="relative inline-block"
+  className="relative inline-block md:mr-2"
 onClick={async () => {
   const opening = !showNotifications;
 
@@ -193,17 +207,21 @@ onClick={async () => {
   setShowNotifications(opening);
 }}
 >
- <img className='md:w-8 w-5 h-5 md:h-8 invert cursor-pointer' src="/bell.svg" alt="" />
+ <img className="w-6 md:w-7 h-6 md:h-7 invert opacity-80 hover:opacity-100 hover:scale-110 transition cursor-pointer" src="/bell.svg" alt="" />
 
   {unreadCount > 0 && (
-    <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+    <span className="absolute -top-2 -right-2 bg-red-500 ring-1 ring-cyan-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
       {unreadCount}
     </span>
   )}
 
   {showNotifications && (
- <div className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white text-black rounded-lg shadow-lg p-3 z-50">
-    <h3 className="font-bold mb-2">Notifications</h3>
+<div
+  className="absolute md:right-0 right-[-110] mt-3 w-50 md:w-96 md:max-h-125 max-h-100 overflow-y-auto overscroll-contain custom-scrollbar rounded-2xl border border-white/10 bg-zinc-900/95 backdrop-blur-xl shadow-2xl text-white p-4 scroll-smooth"
+    onClick={(e) => e.stopPropagation()}
+  onWheel={(e) => e.stopPropagation()}
+>
+    <h3 className="md:text-lg font-semibold border-b border-white/10 md:pb-3 pb-2 md:mb-3">Notifications</h3>
 
     {notifications.length === 0 ? (
       <p>No notifications</p>
@@ -211,20 +229,24 @@ onClick={async () => {
       notifications.map((notification) => (
     <div
   key={notification._id}
-  className="flex justify-between items-center border-b py-2"
+ className="flex justify-between items-start md:py-3 py-2 border-b border-white/10 hover:bg-white/5 rounded-xl md:px-2 transition"
 >
   <div>
     <p>{notification.message}</p>
 
-    <small className="text-gray-500">
+    <small className="text-slate-400">
       {new Date(notification.createdAt).toLocaleString()}
     </small>
   </div>
 
-  <img src='delete.svg'
-    onClick={() => deleteNotification(notification._id)}
-    className="text-red-600 hover:text-red-800 w-5 h-5 cursor-pointer"
-  />
+ <img
+  src="delete.svg"
+  onClick={(e) => {
+    e.stopPropagation();
+    deleteNotification(notification._id);
+  }}
+  className="md:w-6 md:h-6 w-5 h-5 opacity-90 hover:opacity-100 hover:scale-110 cursor-pointer transition invert b bg-linear-to-br from-[#D42406] to-[#63fd55] rounded-full p-1"
+/>
   
   
 </div>
@@ -234,23 +256,23 @@ onClick={async () => {
 )}
 </div>
 
-    <Link className='flex items-center' href="/profile">
+    <Link className='flex items-center border-slate-300 rounded-xl border hover:bg-indigo-500/50 bg-purple-500/20 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600 transition duration-300 hover:scale-105 px-1 text-gray-200 hover:text-white' href="/profile">
     <img
   width={40}
   height={30}
   src={user.profileImage || "/default-avatar.png"}
   alt="profile pic"
-  className="rounded-full object-cover h-10"
+  className="md:h-10 h-8 rounded-full object-cover border-2 border-cyan-500"
 />
-   <span className="hidden md:inline px-2 md:py-2 py-1 md:text-lg">
+   <span className="hidden lg:block ml-2 font-medium text-gray-200 hover:text-white">
   {user.name}
 </span>
     </Link>
 
     <button
       onClick={handleLogout}
-      className="md:px-4 px-2 md:py-2 py-1 bg-gray-700 rounded cursor-pointer transition duration-300 hover:bg-gray-800 hover:scale-105
-active:scale-95"
+      className="md:px-4 px-2 md:py-2 py-1 rounded-xl cursor-pointer transition duration-300 hover:scale-105
+active:scale-95 text-gray-200 hover:text-white border border-slate-300 hover:bg-indigo-500/50 bg-purple-500/20 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600"
       >
       Logout
     </button>
@@ -260,9 +282,9 @@ active:scale-95"
   <div ref={dropdownRef} className="dropdown">
     <div
       onClick={() => setactive(!active)}
-      className="dropbtn flex items-center gap-2 cursor-pointer"
+      className="dropbtn flex items-center gap-2 px-4 py-2 rounded-xl duration-300 border border-slate-400 transition cursor-pointer text-gray-200 hover:text-white hover:bg-indigo-500/50 bg-linear-to-br hover:from-indigo-500 bg-purple-500/20 hover:to-cyan-600 active:scale-95 hover:scale-105"
     >
-      <button className='cursor-pointer transition duration-300 '>Register/Login</button>
+      <button className='cursor-pointer transition duration-300 text-gray-200 hover:text-white'>Register/Login</button>
 
       <Image
         src="/arrow.svg"
@@ -274,17 +296,17 @@ active:scale-95"
     </div>
 
     {active && (
-      <div className="dropdown-content">
+<div className="dropdown-content absolute right-[-3] md:w-42 overflow-hidden rounded-xl-xl border border-slate-400 bg-purple-500/50 backdrop-blur-xl shadow-xl text-gray-200 hover:text-white">
           <Link
   href="/register"
-  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95"
+  className="block md:px-4 md:py-2 px-2 py-1 transition duration-300 hover:scale-105 active:scale-95 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600"
 >
   Register
 </Link>
 
 <Link
   href="/login"
-  className="block md:px-4 md:py-2 px-2 py-1 hover:bg-gray-800 transition duration-300 hover:scale-105 active:scale-95"
+  className="block md:px-4 md:py-2 px-2 py-1 transition duration-300 hover:scale-105 active:scale-95 bg-linear-to-br hover:from-indigo-500 hover:to-cyan-600"
 >
   Login
 </Link>

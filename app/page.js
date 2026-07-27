@@ -596,73 +596,218 @@ const visibleActivities = activities.slice(
 );
 
 if (loading) {
-  return <div className="text-center py-4">Loading...</div>;
+  return <div className="text-center py-4 bg-indigo-500/50 text-white h-screen">Loading...</div>;
 }
 
   return (
     <>
      <ProtectedRoute>
 
-      <div className="bg-[#F8FAFC] min-h-screen flex justify-center pl-8 pr-4">
-  <div className="flex flex-col justify-center items-center">
+     <div className="
+relative
+min-h-screen
+overflow-hidden
+bg-[#030712]
+text-white
+flex
+justify-center
+px-2
+md:px-8 xl:ml-0 md:ml-10 ml-10
+">
+    <div className="absolute -top-40 -left-32 h-112.5 w-112.5 rounded-full bg-indigo-500/80 blur-[140px]" />
 
-        <div className="flex flex-col items-center justify-center mt-6 py-2">
-          <div className="flex items-center md:gap-4 gap-1">
+<div className="absolute top-1/3 -right-32 h-125 w-125 rounded-full bg-cyan-500/80 blur-[170px]" />
 
-            <Image className="md:w-12 w-8 ml-5"
+<div className="absolute top-[40%] -left-32 h-125 w-125 rounded-full bg-blue-500/80 blur-[170px]" />
+
+<div className="absolute bottom-0 left-1/2 h-112.5 w-112.5 -translate-x-1/2 rounded-full bg-purple-500/80 blur-[180px]" />
+
+  <div
+className="
+relative
+z-10
+w-full
+max-w-7xl
+md:py-7
+py-4
+flex
+flex-col
+items-center
+"
+>
+
+       <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl px-4 md:px-8 py-3 md:py-10 text-center shadow-[0_0_60px_rgba(99,102,241,0.15)] relative overflow-hidden">
+<div className="absolute -top-24 left-0 h-56 w-56 rounded-full bg-indigo-500/50 blur-[120px]" />
+
+<div className="absolute -bottom-24 right-0 h-56 w-56 rounded-full bg-cyan-500/50 blur-[120px]" />
+
+      <div className="relative z-10 flex items-center justify-center gap-3">
+
+           <Image
+className="w-8 md:w-12 drop-shadow-[0_0_20px_rgba(99,102,241,.7)]"
               src="/welcome.svg"
               alt="Welcome Image"
               width={50}
               height={50}
             />
-            <h1 className="md:text-4xl font-bold text-xl ">Welcome to My Portfolio</h1>
+           <h1 className="text-2xl md:text-4xl font-extrabold bg-linear-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">Welcome to My Portfolio</h1>
           </div>
 
-          <p className="md:text-lg text-gray-600 mb-8 pl-2">
+
+      <p className=" text-slate-300 md:text-lg">
             Explore my skills and projects
           </p>
         </div>
 
-<div className="mb-4">
-  <h2 className="font-bold md:text-2xl text-xl mb-3 text-center">Statistic cards</h2>
 
-  <div className="grid md:grid-cols-2 md:gap-3 gap-2 w-fit mx-auto">
+<div className="mb-4 flex gap-3 md:gap-5 flex-col md:flex-row flex-gap">
+  <div>
+
+  <h2 className="font-bold md:text-2xl text-xl mb-3 text-center mt-3 bg-linear-to-r from-gray-400 via-indigo-300 to-neutral-400 bg-clip-text text-transparent">Statistic cards</h2>
+
+  <div className="grid md:grid-cols-2 gap-3 md:gap-5">
 
     {/* TOTAL PROJECTS */}
-    <div className="bg-gray-400 rounded-lg md:py-6 md:px-4 font-semibold py-3 px-2">
-      <span>Total projects</span>
-      <div>{projects.length}</div>
+    <div className="
+group
+rounded-2xl
+border
+items-center
+flex
+gap-2
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+p-4 md:p-6
+transition-all
+duration-300
+hover:-translate-y-2
+hover:border-cyan-400
+hover:shadow-[0_0_35px_rgba(34,211,238,.25)]
+">
+      <p className="text-sm uppercase tracking-widest text-slate-300">
+Total Projects
+</p>
+      <div className="font-bold text-white text-lg">
+{projects.length}
+</div>
     </div>
 
     {/* FEATURED PROJECTS */}
-    <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold">
-      <span>Featured Projects</span>
-      <div>
+    <div className="
+group
+rounded-2xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+p-4 md:p-6
+flex 
+items-center gap-2
+transition-all
+duration-300
+hover:-translate-y-2
+hover:border-cyan-400
+hover:shadow-[0_0_35px_rgba(34,211,238,.25)]
+">
+     <p className="text-sm uppercase tracking-widest text-slate-300">
+Featured Projects
+</p>
+      <div className="font-bold text-white text-lg">
         {projects.filter(p => p.featured).length}
       </div>
     </div>
 
     {/* SKILLS */}
-    <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold">
-      <span>Skills</span>
-      <div>{skills.length}</div>
+    <div className="
+group
+rounded-2xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+p-4 md:p-6
+flex 
+items-center gap-2
+transition-all
+duration-300
+hover:-translate-y-2
+hover:border-cyan-400
+hover:shadow-[0_0_35px_rgba(34,211,238,.25)]
+">
+      <p className="text-sm uppercase tracking-widest text-slate-300">
+Skills
+</p>
+      <div className="font-bold text-white text-lg">{skills.length}</div>
     </div>
 
     {/* COMPLETED PROJECTS */}
-    <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold">
-      <span>Completed projects</span>
-      <div>
+    <div className="
+group
+rounded-2xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+p-4 md:p-6
+flex 
+items-center gap-2
+transition-all
+duration-300
+hover:-translate-y-2
+hover:border-cyan-400
+hover:shadow-[0_0_35px_rgba(34,211,238,.25)]
+">
+      <p className="text-sm uppercase tracking-widest text-slate-300">
+        Completed Projects
+</p>
+      <div className="font-bold text-white text-lg">
         {projects.filter(p => p.status === "completed").length}
       </div>
     </div>
 </div>
 
-    <h1 className="text-center font-bold text-2xl mt-4">User Statics</h1>
-  <div className="bg-gray-400 rounded-lg md:py-6 py-2 md:px-4 px-2 font-semibold my-4 mb-0 w-50 mx-auto">
-  <span>Projects This Month: </span>
-  <span>{projectsThisMonth}</span>
+  </div>
+<div>
 
-  <div>
+    <h1 className="text-center font-bold text-2xl mt-3 bg-linear-to-r from-gray-400 via-indigo-300 to-neutral-400 bg-clip-text text-transparent">User Statics</h1>
+ <div
+className="
+md:mt-3 mt-2
+rounded-2xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+p-4 md:p-7
+w-full
+max-w-md
+shadow-[0_0_30px_rgba(99,102,241,.15)]
+"
+>
+ <span className="text-slate-300 uppercase text-xs tracking-widest">
+Projects This Month:
+</span>
+ <span className=" text-slate-300 text-sm ml-2">
+{projectsThisMonth}
+</span>
+
+  <div className="space-y-3 border-t border-white/10 pt-4 text-slate-300 uppercase text-xs tracking-widest">
 <p>Login Count: {stats?.loginCount ?? "Login first"}</p>
 <p>Profile Views: {stats?.profileViews ?? "Login first"}</p>
   <p>
@@ -674,29 +819,73 @@ if (loading) {
 </div>
 </div>
   </div>
+  </div>
 
-<div className="bg-gray-300 p-4 rounded-lg my-6">
-  <h2 className="text-xl font-bold mb-3">Recent Activities</h2>
+<div
+className="
+w-fit
+rounded-xl md:rounded-3xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+md:p-6 p-2
+my-4 md:my-8
+shadow-[0_0_40px_rgba(99,102,241,.15)]
+"
+>
+  <h2 className="md:text-3xl text-xl font-bold md:mb-6 mb-4 text-white">Recent Activities</h2>
 
   {visibleActivities.length === 0 ? (
-    <p className="text-gray-600">No activity yet</p>
+   <p className="text-slate-300 text-center py-6">No activity yet</p>
   ) : (
-    <ul className="grid gap-2 md:grid-cols-3 grid-cols-1">
+   <ul className="grid md:grid-cols-3 gap-2 md:gap-5 frid-cols-1">
       {visibleActivities.map((act) => (
-        <li
-        key={act.id}
-        className="bg-gray-200 p-2 rounded-md text-sm"
-        >
-          <div className="font-semibold truncate w-35">{act.text}</div>
-          <div className="text-xs text-gray-500">{act.time}</div>
+       <li
+key={act.id}
+className="
+group
+xl:w-70
+rounded-2xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-lg
+p-3
+transition-all
+duration-300
+hover:-translate-y-2
+hover:border-cyan-400
+hover:shadow-[0_0_30px_rgba(34,211,238,.25)]
+"
+>
+          <div className="font-semibold text-white truncate">{act.text}</div>
+          <div className="text-sm text-slate-400 mt-2">{act.time}</div>
         </li>
       ))}
     </ul>
   )}
 </div>
 
-        <div className="">
-          <h2 className="md:text-2xl text-xl font-bold mb-4 text-center ">Skill section</h2>
+      <div
+className="
+w-fit
+rounded-3xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/10
+to-cyan-400/10
+backdrop-blur-xl
+md:p-8 p-3
+shadow-[0_0_40px_rgba(99,102,241,.15)]
+"
+>
+        <h2 className="md:text-3xl text-xl font-bold text-center">Skill section</h2>
 <div className="flex flex-col">
 
 <input
@@ -704,46 +893,134 @@ if (loading) {
   placeholder="Search skills..."
   value={skillSearch}
   onChange={(e) => setSkillSearch(e.target.value)}
-  className="border rounded-lg p-2 mb-4 ml-2 md:w-100 w-auto"
+  className="
+xl:w-130
+rounded-xl
+border
+border-white/10
+bg-white/5
+px-4
+py-2 md:py-3
+my-4
+text-white
+placeholder:text-slate-500
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+"
 />
 
 <select
   value={skillFilter}
   onChange={(e) => setSkillFilter(e.target.value)}
-  className="border rounded-lg p-2 mb-4 md:w-40 md:mx-2 mx-10"
+  className="
+rounded-xl
+border
+border-white/10
+bg-white/5
+px-4
+w-fit
+py-2 md:py-3
+text-white
+focus:border-indigo-400
+outline-none
+"
 >
-  <option value="all">All Skills</option>
-  <option value="Frontend">Frontend</option>
-  <option value="Backend">Backend</option>
-  <option value="Database">Database</option>
-  <option value="Tools">Tools</option>
+ <option className="bg-[#3d3d3d] text-white" value="all">
+  All Skills
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Frontend">
+  Frontend
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Backend">
+  Backend
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Database">
+  Database
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Tools">
+  Tools
+</option>
 </select>
   </div>
 
           {filteredSkills.length === 0 ? (
-            <p className="text-gray-700 mb-4 font-semibold text-center">
+            <p className="text-slate-300 mb-2 md:mb-4 font-semibold text-center">
               No skills added yet.
             </p>
           ) : (
             
-            <ul className="list-disc list-inside text-gray-700 w-50 sm:w-100">
+           <ul className="grid md:grid-cols-2 gap-2 md:gap-4 mt-3 md:mt-6">
               {filteredSkills.map((skill) => (
                 
-                <li key={skill._id} className="flex md:gap-50 gap-15 mb-2 justify-between">
-                  <span className="font-semibold text-black truncate md:w-40 w-30">{skill.name}</span>
-                  <div className="flex gap-2 items-center">
+                <li
+key={skill._id}
+className="
+group
+flex
+items-center
+justify-between
+rounded-2xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-lg
+md:p-4 p-2
+transition-all
+duration-300
+hover:-translate-y-1
+hover:border-purple-400
+hover:shadow-[0_0_25px_rgba(168,85,247,.3)]
+"
+>
+                  <span className="font-semibold text-white truncate">{skill.name}</span>
+                  <div className="flex gap-1 md:gap-2 items-center">
                     {/* EDIT */}
                     <img
                       src="/pencil.svg"
                       alt="edit"
-                      className="md:w-5 md:h-5 h-4 w-4 cursor-pointer"
+                     className="
+                     w-7
+h-7
+p-1
+cursor-pointer
+opacity-70
+transition-all
+duration-300
+hover:opacity-100
+hover:scale-125
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+rounded-full
+"
                       onClick={() => editSkill(skill)}
                       />
                     {/* DELETE */}
                     <img
                       src="/delete.svg"
                       alt="delete"
-                      className="md:w-5 h-4 md:h-5 w-5 cursor-pointer"
+                   className="
+w-7
+h-7
+p-1
+cursor-pointer
+opacity-70
+transition-all
+duration-300
+hover:opacity-100
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+rounded-full
+hover:scale-125
+"
                       onClick={() => deleteSkill(skill._id)}
                       />
                   </div>
@@ -752,13 +1029,25 @@ if (loading) {
             </ul>
           )}
 
-          <div className="flex gap-4 my-4">
+          <div className="flex gap-2 md:gap-4 my-4">
             <button
               onClick={() => {
                 openMenu();
               }}
-              className="md:px-4 px-3 py-1 md:py-2 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer hover:scale-105
-active:scale-95"
+              className="
+rounded-xl
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+cursor-pointer
+px-4 md:px-6
+py-2 md:py-3
+font-semibold
+transition-all
+duration-300
+hover:scale-105
+hover:shadow-[0_0_30px_rgba(99,102,241,.45)]
+"
             >
               Add Skill
             </button>
@@ -766,23 +1055,76 @@ active:scale-95"
 
           {showInput && (
             
-            <div className="flex md:flex-row flex-col items-center gap-2 my-4 ">
+          <div
+className="
+mt-4 md:mt-8
+rounded-2xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-xl
+p-1 md:p-2
+flex
+flex-col
+md:flex-row
+items-center
+gap-2 md:gap-4
+"
+>
               <input
                 onChange={(e) => setinput(e.target.value)}
                 type="text"
                 value={input}
                 placeholder="Enter new skill"
-                className="md:px-4 px-2 md:py-2 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 md:mr-2"
+             className="
+flex-1
+rounded-xl
+border
+border-white/10
+bg-white/5
+px-4
+py-2
+text-white
+placeholder:text-slate-300
+outline-none
+focus:border-indigo-400
+"
                 />
                 <select
   value={skillCategory}
   onChange={(e) => setSkillCategory(e.target.value)}
-  className="border rounded-lg p-2"
+className="
+rounded-xl
+border
+border-white/10
+bg-white/5
+px-4
+w-fit
+py-2
+text-white
+focus:border-indigo-400
+outline-none
+"
 >
-  <option value="Frontend">Frontend</option>
-  <option value="Backend">Backend</option>
-  <option value="Database">Database</option>
-  <option value="Tools">Tools</option>
+ <option className="bg-[#3d3d3d] text-white" value="all">
+  All Skills
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Frontend">
+  Frontend
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Backend">
+  Backend
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Database">
+  Database
+</option>
+
+<option className="bg-[#3d3d3d] text-white" value="Tools">
+  Tools
+</option>
 </select>
 <div className="flex justify-center items-center gap-2">
 
@@ -791,11 +1133,19 @@ active:scale-95"
                   addskill();
                 }}
                 disabled={isDisabled}
-                className={`md:px-4 px-2 md:py-2 py-1 rounded-lg transition duration-300 ${
-                  isDisabled
-                  ? "bg-green-500 cursor-not-allowed"
-                  : "bg-green-500 hover:bg-green-600 cursor-pointer hover:scale-105 active:scale-95"
-                }`}
+              className={`
+rounded-xl
+px-4 md:px-6
+py-2
+font-semibold
+transition-all
+duration-300
+${
+isDisabled
+? "bg-green-500/60 cursor-not-allowed"
+: "bg-linear-to-r cursor-pointer from-green-500 to-emerald-500 hover:scale-105 hover:shadow-[0_0_25px_rgba(34,197,94,.4)]"
+}
+`}
                 >
                 Add
               </button>
@@ -811,7 +1161,7 @@ active:scale-95"
       <img
         src="/back.svg"
         alt="Cancel"
-        className="w-6 h-6"
+     className="w-7 h-7 cursor-pointer transition-all duration-300 hover:scale-110 invert"
       />
     </button>
           </div>
@@ -821,28 +1171,73 @@ active:scale-95"
         </div>
 
 
-        <div className="mx-auto md:w-160 w-60 md:px-2 ">
-          <h3 className="md:text-2xl text-xl font-bold my-4 text-center">Project section</h3>
+       <div
+className="
+xl:w-280
+md:mt-7
+w-fit
+mt-4
+rounded-3xl
+border
+border-white/10
+bg-white/5
+bg-linear-to-br
+from-indigo-500/20
+to-cyan-400/10
+backdrop-blur-xl
+p-2 md:p-4
+shadow-[0_0_50px_rgba(99,102,241,.15)]
+"
+>
+         <h3 className="text-xl md:text-3xl font-bold text-center mb-4 md:mb-8">Project section</h3>
 
-<div className="flex md:flex-row flex-col gap-5 mb-4">
+<div className="flex md:flex-row flex-col gap-2 md:gap-5 mb-4">
           <input
   type="text"
   placeholder="Search projects..."
   value={searchTerm}
   onChange={(e) => setSearchTerm(e.target.value)}
-  className="border py-1 rounded-lg px-2 md:w-100 w-50 mx-auto"
+  className="
+w-full
+max-w-xl
+mx-auto
+rounded-xl
+border
+border-white/10
+bg-white/5
+px-4
+py-2 md:py-3
+text-white
+placeholder:text-slate-300
+focus:border-cyan-400
+focus:ring-2
+focus:ring-cyan-500/30
+outline-none
+"
 />
 
 
 
   </div>
-<div className="bg-gray-300 p-4 rounded-lg mb-4 md:w-100 mx-auto">
+<div
+className="
+rounded-2xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-xl
+p-2 md:p-6
+max-w-2xl
+mx-auto
+mb-6
+"
+>
 
 <h2 className="font-bold md:text-xl text-lg mb-3 text-center">
 Project Categories
 </h2>
 
-<div className="flex gap-2 md:flex-row flex-col mb-3">
+<div className="flex gap-2 md:flex-row flex-col justify-between my-3 bg-white/10 p-1 md:p-2 rounded-xl">
 
 <input
   type="text"
@@ -851,7 +1246,23 @@ Project Categories
   onChange={(e) =>
     setNewCategory(e.target.value)
   }
-  className="border rounded-lg p-2"
+ className="
+w-full
+max-w-xl
+mx-auto
+rounded-xl
+border
+border-white/20
+bg-white/5
+px-4
+py-2
+text-white
+placeholder:text-slate-300
+focus:border-cyan-400
+focus:ring-2
+focus:ring-cyan-500/30
+outline-none
+"
 />
 <button
   onClick={
@@ -859,8 +1270,19 @@ Project Categories
     ? updateCategory
     : addCategory
   }
-  className="bg-blue-500 hover:bg-blue-600 text-white md:px-3 px-2 md:py-2 py-1 transition duration-300 cursor-pointer rounded hover:scale-105
-active:scale-95"
+  className="rounded-xl
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+cursor-pointer
+px-4 md:px-6
+w-fit
+py-2
+font-semibold
+transition-all
+duration-300
+hover:scale-105
+hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
 
   {editingCategory !== null
@@ -874,28 +1296,73 @@ active:scale-95"
 {categories.map((cat) => (
   <div
     key={cat._id}
-    className="flex justify-between mb-2 font-semibold gap-2"
+    className="
+flex
+justify-between
+items-center
+rounded-xl
+border
+border-white/10
+bg-white/5
+p-2
+mb-2
+"
   >
-    <span className="md:w-auto w-100 truncate">
+    <span className=" md:w-100 truncate">
       {cat.name}
     </span>
 
     <div className="flex gap-2">
-      <button className="hover:cursor-pointer transition duration-300 bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md hover:scale-105
-active:scale-95"
+      <button 
         onClick={() => {
           setEditingCategory(cat._id);
           setNewCategory(cat.name);
         }}
         >
-        Edit
+          <img
+                      src="/pencil.svg"
+                      alt="edit"
+                   className="
+w-7
+h-7
+p-1
+cursor-pointer
+opacity-70
+transition-all
+duration-300
+hover:opacity-100
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+rounded-full
+hover:scale-125
+"
+          
+                      />
       </button>
 
-      <button className="hover:cursor-pointer transition duration-300 bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md hover:scale-105
-active:scale-95"
+      <button
         onClick={() => deleteCategory(cat._id)}
       >
-        Delete
+          <img
+                      src="/delete.svg"
+                      alt="delete"
+                   className="
+w-7
+h-7
+p-1
+cursor-pointer
+opacity-70
+transition-all
+duration-300
+hover:opacity-100
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+rounded-full
+hover:scale-125
+"
+                      />
       </button>
     </div>
   </div>
@@ -903,34 +1370,65 @@ active:scale-95"
 
 </div>
 
-<div className="flex md:flex-row flex-col items-center gap-3 justify-center">
+<div className="flex md:flex-row flex-col items-center gap-3 justify-center my-3 md:my-6">
 
-  <div className="font-semibold border px-2 py-2 rounded-lg">Categories: {categories.length}</div>
+  <div className="font-semibold px-2 py-2 rounded-lg
+border
+hover:scale-105
+transition duration-300
+border-white/10
+bg-white/10
+w-fit
+text-slate-900
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)] bg-linear-to-br from-indigo-400 to-cyan-500">Categories: {categories.length}</div>
 
-<div className="flex md:gap-3 gap-1">
+<div className="flex md:gap-3 gap-1 ">
 <select
   value={filter}
   onChange={(e) => setFilter(e.target.value)}
-  className="border rounded-lg py-1 md:py-2 md:px-3 px-0 sm:px-1 ml-2"
+  className=" rounded-lg py-1 md:py-2 md:px-3 px-0 sm:px-1 ml-2
+border
+border-white/10
+bg-white/10
+transition duration-300
+w-fit cursor-pointer
+text-white
+hover:scale-105
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
-  <option value="all">All Projects</option>
-  <option value="completed">Completed</option>
-  <option value="ongoing">Ongoing</option>
-  <option value="featured">Featured</option>
-  <option value="newest">Newest First</option>
-<option value="oldest">Oldest First</option>
+
+
+  <option className="bg-[#3d3d3d] text-white" value="all">All Projects</option>
+  <option className="bg-[#3d3d3d] text-white" value="completed">Completed</option>
+  <option className="bg-[#3d3d3d] text-white" value="ongoing">Ongoing</option>
+  <option className="bg-[#3d3d3d] text-white" value="featured">Featured</option>
+  <option className="bg-[#3d3d3d] text-white" value="newest">Newest First</option>
+<option className="bg-[#3d3d3d] text-white" value="oldest">Oldest First</option>
 </select>
 
 
-<select
+<select 
   value={categoryFilter}
   onChange={(e) => setCategoryFilter(e.target.value)}
-  className="border rounded-md md:p-2 sm:p-1 md:w-fit w-30"
+  className="rounded-md md:p-2 sm:p-1 md:w-fit w-30 opacity-90 transition-all
+duration-300
+border
+border-white/10
+bg-white/10
+px-0 md:px-4
+hover:scale-105
+cursor-pointer
+py-2
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
-  <option value="all">All Categories</option>
+  <option className="bg-[#3d3d3d] text-white" value="all">All Categories</option>
 
    {categories.map((cat) => (
-    <option key={cat._id} value={cat.name}>
+    <option className="bg-[#3d3d3d] text-white" key={cat._id} value={cat.name}>
       {cat.name}
     </option>
   ))}
@@ -939,68 +1437,128 @@ active:scale-95"
 
 <button
   onClick={() => window.open("/preview", "_blank")}
-  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer transition duration-300 hover:scale-105
-active:scale-95"
+  className=" text-slate-900 px-4 py-2 rounded cursor-pointer transition duration-300 hover:scale-105
+active:scale-95 border
+font-semibold
+border-white/10
+bg-white/10
+w-fit
+focus:border-indigo-400
+hover:shadow-[0_0_30px_rgba(99,102,241,.45)]
+outline-none
+bg-linear-to-br from-indigo-400 to-cyan-500"
 >
   Preview Portfolio
 </button>
 
   </div>
-          <div className="grid md:grid-cols-2 grid-col-1 md:gap-4 gap-2 md:w-auto w-45 mx-5 my-4">
+          <div className="grid md:grid-cols-3 sm:grid-col-2 grid-col-1 md:gap-4 gap-2 md:w-auto mx-4 md:mx-5 my-4">
             {sortedProjects.length === 0 ? (
-              <div className="text-gray-600 text-center">No Projects Found.</div>
+              <div className="text-slate-300 text-center">No Projects Found.</div>
             ) : (
               sortedProjects.map((p) => (
                 <React.Fragment key={p._id}>
 
-                <div className="bg-gray-300 rounded-lg md:p-4 p-2 hover:scale-105
-active:scale-95 transition duration-300 hover:shadow-2xl">
+          <div
+className="
+group
+relative
+overflow-hidden
+rounded-3xl
+border
+border-white/10
+bg-linear-to-br
+from-white/5
+to-white/2
+backdrop-blur-xl
+p-2 md:p-3
+transition-all
+duration-500
+hover:-translate-y-3
+hover:border-cyan-400
+hover:shadow-[0_0_45px_rgba(34,211,238,.25)]
+"
+>
                   {p.image ? (
                     <img
                     src={p.image}
                     alt={p.title}
-                    className="rounded-lg md:w-fit w-50 mb-4"
+                   className="
+w-full
+h-52
+object-cover
+rounded-2xl
+transition-transform
+duration-500
+group-hover:scale-105
+"
                     onError={(e) => {
                       e.target.src = "/fallback.png";
                     }}
                     />
                   ) : (
-                    <div className="w-full h-40 flex items-center justify-center bg-gray-200 rounded-lg mb-4 text-gray-600 font-medium">
+                    <div className="w-full h-40 flex items-center justify-center bg-indigo-300 rounded-lg mb-4 text-gray-600 font-medium">
                       No image added
                     </div>
                   )}
-                  <div className="font-bold">{p.title}</div>
+               <div className="text-xl md:text-2xl font-bold text-white mt-2 md:mt-4">{p.title}</div>
                   {isValidUrl(p.link) ? (
                     <a
                     href={p.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline ml-2 font-bold"
+                    className="text-cyan-500 hover:underline hover:text-cyan-600 font-bold transition duration-300"
                     >
                       (Link)
                     </a>
                   ) : (
                     <span className="text-gray-500 ">(Invalid link)</span>
                   )}
-                  <div>{p.description}</div>
+               <div className=" text-slate-300 leading-7">
+{p.description}
+</div>
                 
-                 <div className="text-sm text-gray-600">
+                 <div className="text-sm text-slate-300">
   Created: {new Date(p.createdAt).toLocaleDateString()}
 </div>
 
                   <div className="flex gap-2 mt-4">
                     <button
                       onClick={() => handleEdit(p)}
-                      className="bg-green-600 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-green-700 transition duration-300 hover:scale-105
-active:scale-95"
+                     className="
+rounded-lg
+bg-linear-to-r
+from-green-500
+to-emerald-500
+px-4
+py-2
+cursor-pointer
+font-semibold
+transition-all
+duration-300
+hover:scale-105
+active:scale-95
+"
                       >
                       Update
                     </button>
 
                     <button
                       onClick={() => handleDelete(p._id)}
-                      className="bg-red-500 text-white md:px-3 px-2 py-1 rounded hover:cursor-pointer hover:bg-red-600 transition duration-300 hover:scale-105
-active:scale-95"
+                       className="
+rounded-lg
+bg-linear-to-r
+from-red-500
+to-rose-500
+px-4
+py-2
+cursor-pointer
+font-semibold
+transition-all
+duration-300
+hover:scale-105
+active:scale-95
+"
                       >
                       Delete
                     </button>
@@ -1009,7 +1567,16 @@ active:scale-95"
                   </div>
 
            {editingId === p._id && (
-             <div className="bg-gray-200 rounded-md md:p-4 mt-4 py-2 px-2">
+          <div
+className="
+rounded-2xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-xl
+p-1 md:p-3
+"
+>
 
     <input
       type="text"
@@ -1018,7 +1585,22 @@ active:scale-95"
       onChange={(e) =>
         setEditForm({ ...editForm, title: e.target.value })
       }
-      className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
+      className="
+w-full
+rounded-lg
+border
+bg-white/5
+px-4
+py-2
+border-white/40
+text-white
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+"
       />
 
     <input
@@ -1028,11 +1610,39 @@ active:scale-95"
       onChange={(e) =>
         setEditForm({ ...editForm, link: e.target.value })
       }
-      className="md:w-full w-50 mb-2 border rounded-lg p-2"
+      className="
+w-full
+rounded-lg
+border
+bg-white/5
+px-4
+py-2
+text-white
+border-white/40
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+my-2
+"
     />
 
    <div className="flex items-center gap-3 mb-2">
-  <label className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded">
+  <label className="
+cursor-pointer
+rounded-lg
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+px-3
+py-2
+transition-all
+duration-300
+hover:scale-105
+hover:shadow-[0_0_25px_rgba(99,102,241,.4)]
+">
     Choose Image
 
     <input
@@ -1055,12 +1665,36 @@ active:scale-95"
       onChange={(e) =>
         setEditForm({ ...editForm, description: e.target.value })
       }
-      className="md:w-full w-50 mb-2 border rounded-lg p-2"
+     className="
+w-full
+rounded-lg
+border
+bg-white/5
+px-4
+py-2
+text-white
+border-white/40
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+"
       />
 
-     <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center">
+     <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center border
+border-white/10
+bg-white/10 rounded-lg
+px-1">
       <div>Select Category type:</div>
-          <select className="font-semibold border rounded-md p-2"
+          <select className="font-semibold border rounded-md p-2 border-white/40
+bg-white/10
+transition duration-300
+w-fit cursor-pointer
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
             value={editForm.category}
             onChange={(e) =>
               setEditForm({
@@ -1070,7 +1704,7 @@ active:scale-95"
             }
             >
    {categories.map((cat) => (
-     <option key={cat._id} value={cat.name}>
+     <option className="text-white bg-[#3d3d3d]" key={cat._id} value={cat.name}>
     {cat.name}
   </option>
 ))}
@@ -1078,7 +1712,7 @@ active:scale-95"
             </div>
 
     {/* FEATURED */}
-    <label className="flex items-center gap-2 mb-2">
+    <label className="flex items-center gap-2 my-2">
       <input
         type="checkbox"
         checked={editForm.featured}
@@ -1098,23 +1732,28 @@ active:scale-95"
       onChange={(e) =>
         setEditForm({ ...editForm, status: e.target.value })
       }
-      className="md:w-full w-50 mb-2 border rounded-lg p-2"
+      className="md:w-full w-50 mb-2 border rounded-lg p-2 border-white/40
+bg-white/10
+transition duration-300 cursor-pointer
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
       >
-      <option value="ongoing">Ongoing</option>
-      <option value="completed">Completed</option>
+      <option className="bg-[#3d3d3d]  text-white" value="ongoing">Ongoing</option>
+      <option className="bg-[#3d3d3d] text-white" value="completed">Completed</option>
     </select>
 
     <button
       onClick={handleUpdateProject}
-      className="bg-green-500 text-white px-4 py-2 rounded hover:scale-105
-active:scale-95 transition duration-300 hover:cursor-pointer hover:bg-green-600"
+      className="bg-indigo-500 text-white px-4 py-2 rounded hover:scale-105
+active:scale-95 transition duration-300 hover:cursor-pointer font-semibold hover:bg-indigo-600/80"
       >
       Update Project
     </button>
       <img
     src="/back.svg"
     alt="Cancel"
-    className="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mt-2"
+    className="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mt-2 invert"
     onClick={() => {
       setEditingId(null);
       setEditProjectFile(null);
@@ -1140,24 +1779,24 @@ active:scale-95 transition duration-300 hover:cursor-pointer hover:bg-green-600"
            
             
           </div>
-          <div className="flex gap-4 my-4">
-            <button
-              onClick={() => {
-                setShowForm(!showForm);
-              }}
-              className="md:px-4 px-2 font-normal text-black text-md md:py-2 py-1 bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 hover:cursor-pointer w-auto mx-auto hover:scale-105
-active:scale-95"
-              >
-              Add Project
-            </button>
-          </div>
-
 {showForm && (
-  <div className="bg-gray-200 rounded-lg p-4 mt-4">
+  <div
+className="
+mt-3 md:mt-4
+md:mx-0 mx-3
+rounded-3xl
+border
+border-white/10
+bg-white/5
+backdrop-blur-xl
+p-2 md:p-6
+shadow-[0_0_40px_rgba(99,102,241,.15)]
+"
+>
     <img
        src="/back.svg"
        alt="Cancel"
-       className="w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mb-2"
+       className="invert w-6 h-6 cursor-pointer hover:scale-110 transition duration-300 mb-2"
        onClick={() => {
          setShowForm(false);
    
@@ -1172,7 +1811,7 @@ active:scale-95"
            category: "Web Developement",
            featured: false,
            status: "ongoing",
-         });
+          });
        }}
      />
 
@@ -1183,7 +1822,22 @@ active:scale-95"
       onChange={(e) =>
         setAddForm({ ...addForm, title: e.target.value })
       }
-      className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
+     className="
+     w-full
+rounded-xl
+border
+border-white/40
+bg-white/5
+px-4
+py-2
+text-white
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+"
       />
 
     <input
@@ -1193,14 +1847,38 @@ active:scale-95"
       onChange={(e) =>
         setAddForm({ ...addForm, link: e.target.value })
       }
-      className="md:w-full w-50 mb-2 px-4 py-2 border rounded-lg"
+       className="
+       w-full
+       rounded-xl
+       border
+border-white/40
+bg-white/5
+px-4
+py-2
+text-white
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+my-2
+"
       />
-
-    
-
-
 <div className="flex items-center gap-3 mb-2">
-  <label className="cursor-pointer bg-gray-500 text-white px-4 py-2 rounded">
+  <label className="
+cursor-pointer
+rounded-lg
+bg-linear-to-r
+from-indigo-500
+to-cyan-500
+px-2 md:px-3
+py-2
+transition-all
+duration-300
+hover:scale-105
+hover:shadow-[0_0_25px_rgba(99,102,241,.4)]
+">
     Choose Image
 
     <input
@@ -1216,29 +1894,50 @@ active:scale-95"
   </span>
 </div>
 
-
-
-
-
     <textarea
       placeholder="Description"
       value={addForm.description}
       onChange={(e) =>
         setAddForm({ ...addForm, description: e.target.value })
       }
-      className="md:w-full w-50 px-4 py-2 border rounded-lg"
+        className="
+        w-full
+        rounded-xl
+        border
+border-white/40
+bg-white/5
+px-4
+py-2
+text-white
+placeholder:text-slate-300
+focus:border-indigo-400
+focus:ring-2
+focus:ring-indigo-500/30
+outline-none
+transition
+"
     />
-    <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center">
+
+    <div className="flex md:flex-row flex-col gap-2 pt-2 pb-3 items-center border
+border-white/10
+bg-white/10 rounded-lg
+px-1">
       <div className="">Select Category type:</div>
           <select
   value={addForm.category}
   onChange={(e) =>
     setAddForm({ ...addForm, category: e.target.value })
   }
-  className="font-semibold border rounded-md p-2"
+  className="font-semibold border rounded-md p-1 md:p-2 border-white/40
+  bg-white/10
+  transition duration-300
+  w-fit cursor-pointer
+  text-white
+  focus:border-indigo-400
+  outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
    {categories.map((cat) => (
-     <option key={cat._id} value={cat.name}>
+     <option className="text-white bg-[#333333]"  key={cat._id} value={cat.name}>
       {cat.name}
     </option>
   ))}
@@ -1246,7 +1945,7 @@ active:scale-95"
             </div>
 
     {/* FEATURED */}
-    <label className="flex items-center gap-2 mb-2">
+    <label className="flex items-center gap-2 my-2">
       <input
         type="checkbox"
         checked={addForm.featured}
@@ -1266,22 +1965,57 @@ active:scale-95"
       onChange={(e) =>
         setAddForm({ ...addForm, status: e.target.value })
       }
-      className="md:w-full w-50 mb-2 border rounded-lg p-2"
+      className="md:w-full mb-2 border rounded-lg p-2 font-semibold  border-white/40
+bg-white/10
+transition duration-300
+w-fit cursor-pointer
+text-white
+focus:border-indigo-400
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
     >
-      <option value="ongoing">Ongoing</option>
-      <option value="completed">Completed</option>
+      <option className="text-white bg-[#333333]" value="ongoing">Ongoing</option>
+      <option className="text-white bg-[#333333]"  value="completed">Completed</option>
     </select>
 
+<div>
     <button
       onClick={handleAddProject}
-      className="bg-blue-500 text-white px-4 py-2 rounded"
+      className="bg-indigo-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-indigo-600/80 transition duration-300 hover:scale-105"
       >
       Save Project
     </button>
+        </div>
 
   </div>
 )}
 
+<div className="flex gap-4 my-4">
+
+          <button
+            onClick={() => {
+              setShowForm(!showForm);
+            }}
+            className="
+            rounded-xl
+            bg-linear-to-r
+mx-auto
+from-indigo-500
+via-purple-500
+to-cyan-500
+px-4 md:px-6
+py-2 md:py-3
+font-semibold
+text-white
+transition-all
+duration-300
+hover:scale-105
+hover:shadow-[0_0_30px_rgba(99,102,241,.45)]
+active:scale-95
+cursor-pointer"
+>
+            Add Project
+          </button>
+              </div>
  </div>
       </div>
               </div>
