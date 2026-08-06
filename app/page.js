@@ -20,12 +20,7 @@ const [skillFilter, setSkillFilter] = useState("all");
   const [projects, setProjects] = useState([]);
   const [projectFile, setProjectFile] = useState(null);
   const [skillSearch, setSkillSearch] = useState("");
-  const defaultCategories = [
-  "Web Developement",
-  "Mobile App",
-  "AI",
-  "Game Developement",
-  ];
+
   const [editProjectFile, setEditProjectFile] = useState(null);
 const [projectPreview, setProjectPreview] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -33,9 +28,17 @@ const [projectPreview, setProjectPreview] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-const [categories, setCategories] = useState(defaultCategories);
-const [newCategory, setNewCategory] = useState("");
-const [editingCategory, setEditingCategory] = useState(null);
+
+  const PROJECT_CATEGORIES = [
+  "Web Development",
+  "Mobile App",
+  "AI",
+  "Game Development",
+  "Desktop Application",
+  "UI/UX",
+  "Full Stack",
+];
+
   const [filter, setFilter] = useState("all");
   const [addForm, setAddForm] = useState({
   title: "",
@@ -349,20 +352,8 @@ const deleteSkill = async (id) => {
   reader.readAsDataURL(selected);
 };
 
-const fetchCategories = async () => {
-try {
-  const res = await fetch("/api/categories");
-  const data = await res.json();
 
-  setCategories(data);
-} catch (error) {
-  console.log(error);
-}
-};
 
-useEffect(() => {
-fetchCategories();
-}, []);
 
 function handleEdit(project) {
   setEditingId(project._id);
@@ -444,95 +435,8 @@ localStorage.setItem("portfolio_sync", Date.now());
     }
   }
   
-  useEffect(() => {
-    const saved = localStorage.getItem("projectCategories");
-    
-    if (saved) {
-      setCategories(JSON.parse(saved));
-    }
-  }, []);
+
   
-  useEffect(() => {
-    localStorage.setItem(
-      "projectCategories",
-      JSON.stringify(categories)
-    );
-  }, [categories]);
- 
-  const addCategory = async () => {
-  if (!newCategory.trim()) return;
-
-  try {
-    const res = await fetch("/api/categories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newCategory,
-      }),
-    });
-
-    if (!res.ok) {
-      toast.error("Failed to add category");
-      return;
-    }
-
-    toast.success("Category Added");
-
-    setNewCategory("");
-
-    fetchCategories();
-  } catch (error) {
-    console.log(error);
-  }
-};
-  
- const deleteCategory = async (id) => {
-  try {
-    const res = await fetch(`/api/categories/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) {
-      toast.error("Delete failed");
-      return;
-    }
-
-    toast.success("Category Deleted");
-    addActivity("Category deleted");
-
-    fetchCategories();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const updateCategory = async () => {
-  if (!newCategory.trim()) return;
-
-  const res = await fetch(`/api/categories/${editingCategory}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: newCategory,
-    }),
-  });
-
-  if (res.ok) {
-    await fetchCategories(); // Refresh from MongoDB
-
-    toast.success("Category Updated");
-    addActivity("Category updated");
-
-    setEditingCategory(null);
-    setNewCategory("");
-  } else {
-    toast.error("Failed to update category");
-  }
-};
 
 useEffect(() => {
   async function fetchStats() {
@@ -575,10 +479,6 @@ if (filter === "oldest") {
   );
 }
 
-
-const totalCategories = new Set(
-  projects.map((p) => p.category)
-).size;
 
 const projectsThisMonth = projects.filter((project) => {
   const created = new Date(project.createdAt);
@@ -1210,156 +1110,7 @@ outline-none
 
 
   </div>
-<div
-className="
-rounded-2xl
-border
-border-white/10
-bg-white/5
-backdrop-blur-xl
-p-2 md:p-6
-max-w-2xl
-mx-auto
-mb-6
-"
->
 
-<h2 className="font-bold md:text-xl text-lg mb-3 text-center">
-Project Categories
-</h2>
-
-<div className="flex gap-2 md:flex-row flex-col justify-between my-3 bg-white/10 p-1 md:p-2 rounded-xl">
-
-<input
-  type="text"
-  value={newCategory}
-  placeholder="Enter category"
-  onChange={(e) =>
-    setNewCategory(e.target.value)
-  }
- className="
-w-full
-max-w-xl
-mx-auto
-rounded-xl
-border
-border-white/20
-bg-white/5
-px-4
-py-2
-text-white
-placeholder:text-slate-300
-focus:border-cyan-400
-focus:ring-2
-focus:ring-cyan-500/30
-outline-none
-"
-/>
-<button
-  onClick={
-    editingCategory !== null
-    ? updateCategory
-    : addCategory
-  }
-  className="rounded-xl
-bg-linear-to-r
-from-indigo-500
-to-cyan-500
-cursor-pointer
-px-4 md:px-6
-w-fit
-py-2
-font-semibold
-transition-all
-duration-300
-hover:scale-105
-hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
->
-
-  {editingCategory !== null
-    ? "Update"
-    : "Add"}
-</button>
-    
-
-</div>
-
-{categories.map((cat) => (
-  <div
-    key={cat._id}
-    className="
-flex
-justify-between
-items-center
-rounded-xl
-border
-border-white/10
-bg-white/5
-p-2
-mb-2
-"
-  >
-    <span className=" md:w-100 truncate">
-      {cat.name}
-    </span>
-
-    <div className="flex gap-2">
-      <button 
-        onClick={() => {
-          setEditingCategory(cat._id);
-          setNewCategory(cat.name);
-        }}
-        >
-          <img
-                      src="/pencil.svg"
-                      alt="edit"
-                   className="
-w-7
-h-7
-p-1
-cursor-pointer
-opacity-70
-transition-all
-duration-300
-hover:opacity-100
-bg-linear-to-r
-from-indigo-500
-to-cyan-500
-rounded-full
-hover:scale-125
-"
-          
-                      />
-      </button>
-
-      <button
-        onClick={() => deleteCategory(cat._id)}
-      >
-          <img
-                      src="/delete.svg"
-                      alt="delete"
-                   className="
-w-7
-h-7
-p-1
-cursor-pointer
-opacity-70
-transition-all
-duration-300
-hover:opacity-100
-bg-linear-to-r
-from-indigo-500
-to-cyan-500
-rounded-full
-hover:scale-125
-"
-                      />
-      </button>
-    </div>
-  </div>
-))}
-
-</div>
 
 <div className="flex md:flex-row flex-col items-center gap-3 justify-center my-3 md:my-6">
 
@@ -1372,7 +1123,7 @@ bg-white/10
 w-fit
 text-slate-900
 focus:border-indigo-400
-outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)] bg-linear-to-br from-indigo-400 to-cyan-500">Categories: {categories.length}</div>
+outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)] bg-linear-to-br from-indigo-400 to-cyan-500">Categories: {PROJECT_CATEGORIES.length}</div>
 
 <div className="flex md:gap-3 gap-1 ">
 <select
@@ -1408,7 +1159,7 @@ duration-300
 border
 border-white/10
 bg-white/10
-px-0 md:px-4
+px-0 md:px-2
 hover:scale-105
 cursor-pointer
 py-2
@@ -1418,11 +1169,11 @@ outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
   <option className="bg-[#3d3d3d] text-white" value="all">All Categories</option>
 
-   {categories.map((cat) => (
-    <option className="bg-[#3d3d3d] text-white" key={cat._id} value={cat.name}>
-      {cat.name}
-    </option>
-  ))}
+   {PROJECT_CATEGORIES.map((cat) => (
+  <option key={cat} value={cat} className="bg-[#333] text-white">
+    {cat}
+  </option>
+))}
 </select>
     </div>
 
@@ -1679,7 +1430,7 @@ border-white/10
 bg-white/10 rounded-lg
 px-1">
       <div>Select Category type:</div>
-          <select className="font-semibold border rounded-md p-2 border-white/40
+          <select className="font-semibold border rounded-md py-2 border-white/40
 bg-white/10
 transition duration-300
 w-fit cursor-pointer
@@ -1694,10 +1445,10 @@ outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
               })
             }
             >
-   {categories.map((cat) => (
-     <option className="text-white bg-[#3d3d3d]" key={cat._id} value={cat.name}>
-    {cat.name}
-  </option>
+   {PROJECT_CATEGORIES.map((cat) => (
+    <option key={cat} value={cat} className="bg-[#333] text-white">
+  {cat}
+</option>
 ))}
           </select>
             </div>
@@ -1755,7 +1506,7 @@ active:scale-95 transition duration-300 hover:cursor-pointer font-semibold hover
         link: "",
         description: "",
         image: "",
-        category: "Web Developement",
+        category: PROJECT_CATEGORIES[0],
         featured: false,
         status: "ongoing",
       });
@@ -1927,11 +1678,11 @@ px-1">
   focus:border-indigo-400
   outline-none hover:shadow-[0_0_30px_rgba(99,102,241,.45)]"
 >
-   {categories.map((cat) => (
-     <option className="text-white bg-[#333333]"  key={cat._id} value={cat.name}>
-      {cat.name}
-    </option>
-  ))}
+   {PROJECT_CATEGORIES.map((cat) => (
+  <option key={cat} value={cat} className="bg-[#333] text-white">
+    {cat}
+  </option>
+))}
 </select>
             </div>
 
