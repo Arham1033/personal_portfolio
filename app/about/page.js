@@ -35,7 +35,7 @@ useEffect(() => {
   return (
     
 
-    <div className="min-h-screen md:pt-3 pt-2 items-center md:py-2 md:px-10 pl-15 relative
+    <div className="min-h-screen md:pt-3 pt-2 items-center md:py-2 md:px-10 relative
 overflow-hidden
 bg-[#030712]
 text-white
@@ -48,7 +48,7 @@ px-4
 <div className="absolute bottom-[200] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-cyan-500/80 blur-[180px]" />
 
 
-      <div className="relative z-10 mx-auto xl:w-200 sm:w-100 w-60 px-2 md:py-4 py-2">
+      <div className="relative z-10 mx-auto xl:w-300 sm:w-150 w-60 px-2 md:py-4 py-2">
         <div className="mb-5 text-center">
   <h1 className="text-2xl md:text-5xl font-bold">
     About <span className="bg-linear-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">Me</span>
@@ -70,7 +70,6 @@ px-4
     <div
   key={item._id}
   className="group mt-3 rounded-2xl border border-slate-300/30 shadow-xl  hover:border-indigo-400/40 hover:-translate-y-1 hover:shadow-indigo-500/10 group
-  md:w-auto w-50
 items-center
 bg-white/5
 bg-linear-to-br
