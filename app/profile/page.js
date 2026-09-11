@@ -143,7 +143,7 @@ useEffect(() => {
     }
   }
 
-  if (!user) return <div className="min-h-screen text-center flex items-center justify-center font-bold text-2xl text-slate-300">Not logged in</div>;
+  if (!user) return <div className="min-h-screen text-center flex items-center justify-center font-bold text-2xl bg-[#030712] text-white">Not logged in</div>;
 
   return (
     <ProtectedRoute>

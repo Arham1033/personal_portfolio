@@ -53,7 +53,7 @@ toast.success("Login successfully")
 
 <div className="absolute bottom-[200] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-indigo-500/80 blur-[180px]" />
 
-       <div className="shadow-xl md:p-8 p-2 max-w-md mx-auto w-50 md:w-100 md:mt-20 mt-5 group rounded-2xl border border-white/10 bg-white/5 bg-linear-to-br from-indigo-500/10 to-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400 hover:shadow-[0_0_35px_rgba(34,211,238,.25)]">
+       <div className="shadow-xl md:p-8 p-2 max-w-md mx-auto w-60 md:w-100 md:mt-20 mt-5 group rounded-2xl border border-white/10 bg-white/5 bg-linear-to-br from-indigo-500/10 to-cyan-400/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-400 hover:shadow-[0_0_35px_rgba(34,211,238,.25)]">
 
 <h1 className="md:text-3xl text-xl font-bold text-center text-white mb-2">
   Welcome Back
@@ -65,19 +65,9 @@ toast.success("Login successfully")
 
 
 <div className="flex flex-col md:gap-4 gap-2">
-      <input className="w-full border border-slate-300 rounded-lg px-3 py-2 md:py-3 transition duration-300 focus:ring-2 outline-none
-text-white
-placeholder:text-slate-300
-focus:border-cyan-500
-focus:ring-indigo-500/30
-" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <input className="w-full border border-slate-300 rounded-lg px-3 py-2 md:py-3 transition duration-300 focus:ring-2 outline-none text-white placeholder:text-slate-300 focus:border-cyan-500 focus:ring-indigo-500/30" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 <div className="flex gap-2">
-      <input className="w-full border border-slate-300 rounded-lg px-3 py-2 md:py-3 transition duration-300 focus:ring-2  outline-none
-text-white
-placeholder:text-slate-300
-focus:border-cyan-500
-focus:ring-indigo-500/30
-" placeholder="Password" value={password}
+      <input className="w-full border border-slate-300 rounded-lg px-3 py-2 md:py-3 transition duration-300 focus:ring-2  outline-none text-white placeholder:text-slate-300 focus:border-cyan-500 focus:ring-indigo-500/30" placeholder="Password" value={password}
 type={showPassword ? "text" : "password"} onChange={(e) => setPassword(e.target.value)} />
          <button className="cursor-pointer invert bg-linear-to-br from-yellow-500/90 to-red-500/90 rounded-full md:px-3.5 px-2.5" type="button" onClick={togglePassword}>
     {showPassword ? (

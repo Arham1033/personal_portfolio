@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Preview() {
   const [skills, setSkills] = useState([]);
@@ -42,10 +41,9 @@ export default function Preview() {
   };
 
   return (
-    <ProtectedRoute>
+  
 
-    <div className="flex justify-center items-center flex-col py-3 md:py-6 bg-[#030712]
-text-white relative z-10 md:pl-0 pl-6">
+    <div className="flex justify-center items-center flex-col py-3 md:py-6 bg-[#030712] text-white relative z-10 md:pl-0 pl-6">
     
      <div className="absolute -top-50 md:left-40 left-[-300] md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/80 blur-[140px] " />
 
@@ -167,6 +165,6 @@ group-hover:scale-105"
       </div>
               </div>
     </div>
-        </ProtectedRoute>
+        
   );
 }

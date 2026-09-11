@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import React from "react";
-import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Home() {
 const [skillFilter, setSkillFilter] = useState("all");
@@ -501,7 +500,7 @@ if (loading) {
 
   return (
     <>
-     <ProtectedRoute>
+
 
      <div className="
 relative
@@ -1761,7 +1760,7 @@ cursor-pointer"
  </div>
       </div>
               </div>
-</ProtectedRoute>
+
     </>
   );
 }

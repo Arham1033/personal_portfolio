@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from "react";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import React from 'react'
 
 const Page = () => {
@@ -31,7 +30,7 @@ async function fetchContact() {
 // 👇 ADD THIS HERE
 if (loading) {
   return (
-    <ProtectedRoute>
+  
      <div className="flex min-h-screen items-center justify-center bg-[#030712] text-white pl-10 z-10 relative overflow-hidden px-2 py-10">
       <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/80 blur-[140px] " />
 
@@ -40,30 +39,30 @@ if (loading) {
     Loading contact information...
   </div>
 </div>
-    </ProtectedRoute>
+    
   );
 }
 
 if (!contact) {
   return (
-    <ProtectedRoute>
+   
       <div>No contact information available.</div>
-    </ProtectedRoute>
+  
   );
 }
 
 // 👇 THEN YOUR EXISTING RETURN
 
   return (
-    <ProtectedRoute>
+   
    <div
-  className="relative min-h-screen overflow-hidden bg-[#030712] text-white px-4 md:py-8 py-4 md:px-10"
+  className="relative min-h-screen overflow-hidden bg-[#030712] text-white px-4 md:py-8 py-4 md:px-10 pl-13"
 >
 <div className="absolute -top-50 left-40 md:h-112.5 md:w-112.5 w-100 h-100 rounded-full bg-indigo-500/80 blur-[140px] " />
 
 <div className="absolute bottom-[10] right-[-100] h-110 w-112.5 -translate-x-1/2 rounded-full bg-cyan-500/80 blur-[180px]" />
 
-  <div className="relative z-10 mx-auto max-w-5xl md:w-200 sm:w-100 w-47">
+  <div className="relative z-10 mx-auto max-w-5xl md:w-200 sm:w-100 w-60">
 
 
 <div
@@ -151,7 +150,7 @@ transition
 <p className="md:mt-4 mt-2 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 md:p-5 p-3 text-gray-300 leading-8 font-semibold shadow-[0_10px_40px_rgba(0,0,0,0.35)] hover:shadow-[0_0_30px_rgba(99,102,241,.45)] transition duration-300">{contact.note}</p>
       </div>
   </div>
-    </ProtectedRoute>
+  
   )
 }
 
